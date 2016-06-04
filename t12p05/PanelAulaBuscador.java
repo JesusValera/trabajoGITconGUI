@@ -1,23 +1,42 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package t12p05;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.Aula;
+import modelo.ConexionBD;
 
 /**
  *
  * @author jesus
  */
-public class PanelAulaBuscador extends javax.swing.JPanel {
+public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBack {
 
-    /**
-     * Creates new form PanelArmarioListado
-     */
-    public PanelAulaBuscador() {
+    ConexionBD conn;
+    PanelAulaAlta pAulA;
+    DefaultTableModel modelo;
+    
+    public PanelAulaBuscador(ConexionBD conn, PanelAulaAlta pAulA) {
         initComponents();
+        this.conn = conn;
+        this.pAulA = pAulA;
+        modelo = new DefaultTableModel();
+        modelo.setColumnIdentifiers(new String[] {"ID", "Nombre", "Descripcion"});
+        tabAulas.setModel(modelo);
     }
 
+    void mostrar() {
+        this.setVisible(true);
+        modelo.setRowCount(0);
+    }
+    
+    @Override
+    public void callBack() {
+        botBuscar.doClick();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,22 +46,238 @@ public class PanelAulaBuscador extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
+        botBuscar = new javax.swing.JButton();
+        txtNombre = new javax.swing.JTextField();
+        botLimpiar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabAulas = new javax.swing.JTable();
+        botAceptar = new javax.swing.JButton();
+        botCancelar = new javax.swing.JButton();
+        botAlta = new javax.swing.JButton();
+        botBaja = new javax.swing.JButton();
+        botEditar = new javax.swing.JButton();
+
+        jButton2.setText("jButton2");
+
+        jButton4.setText("jButton4");
+
         setMaximumSize(new java.awt.Dimension(620, 420));
         setMinimumSize(new java.awt.Dimension(620, 420));
+
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("BUSCADOR DE AULA");
+
+        jLabel2.setText("ID:");
+
+        jLabel3.setText("Nombre:");
+
+        botBuscar.setText("Buscar");
+        botBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botBuscarActionPerformed(evt);
+            }
+        });
+
+        botLimpiar.setText("Limpiar");
+
+        tabAulas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tabAulas);
+
+        botAceptar.setText("Aceptar");
+        botAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAcepCancActionPerformed(evt);
+            }
+        });
+
+        botCancelar.setText("Cancelar");
+        botCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAcepCancActionPerformed(evt);
+            }
+        });
+
+        botAlta.setText("Alta");
+        botAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAltaActionPerformed(evt);
+            }
+        });
+
+        botBaja.setText("Baja");
+        botBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botBajaActionPerformed(evt);
+            }
+        });
+
+        botEditar.setText("Editar");
+        botEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                            .addComponent(txtId))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(botBuscar))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(botLimpiar))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(botAlta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(botEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(botBaja)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(botAceptar)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botBuscar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botLimpiar))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botAceptar)
+                    .addComponent(botCancelar)
+                    .addComponent(botAlta)
+                    .addComponent(botBaja)
+                    .addComponent(botEditar))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botAcepCancActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAcepCancActionPerformed
+        setVisible(false);
+    }//GEN-LAST:event_botAcepCancActionPerformed
 
+    private void botBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botBuscarActionPerformed
+        List<Aula> tAulas = new ArrayList<>();
+        try {
+            Aula.buscarAulas(conn, tAulas, txtId.getText(), txtNombre.getText());
+            modelo.setRowCount(0);
+            Collections.sort(tAulas);
+            for (Aula t : tAulas) {
+                modelo.addRow(new String[] {String.valueOf(t.getId()), t.getNombre(), t.getDescripcion()});
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_botBuscarActionPerformed
+
+    private void botAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAltaActionPerformed
+        pAulA.mostrar(this);
+    }//GEN-LAST:event_botAltaActionPerformed
+
+    private void botBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botBajaActionPerformed
+        String id = (String) modelo.getValueAt(tabAulas.getSelectedRow(), 0);
+        if (!id.equals("-1")) {
+            int op = JOptionPane.showConfirmDialog(this, 
+                    "Seguro que desea eliminar el aula con ID " +id, 
+                    "ELIMINAR", 
+                    JOptionPane.WARNING_MESSAGE);
+            switch (op) {
+                case JOptionPane.YES_OPTION:
+                try {
+                    Aula.bajaAula(Integer.parseInt(id), conn);
+                    JOptionPane.showConfirmDialog(this, 
+                            "Aula eliminada.", 
+                            "ELIMINAR", 
+                            JOptionPane.OK_OPTION);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        botBuscar.doClick();
+    }//GEN-LAST:event_botBajaActionPerformed
+
+    private void botEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botEditarActionPerformed
+        if (tabAulas.getSelectedRow() > 0) {
+        String id = (String) modelo.getValueAt(tabAulas.getSelectedRow(), 0);
+        //if (!id.equals("-1")) {
+            Aula aula = new Aula();
+            aula.setId(Integer.parseInt(id));
+            try {
+                aula.recuperarAula(conn);
+                pAulA.mostrarEdicion(this, aula);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_botEditarActionPerformed
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botAceptar;
+    private javax.swing.JButton botAlta;
+    private javax.swing.JButton botBaja;
+    private javax.swing.JButton botBuscar;
+    private javax.swing.JButton botCancelar;
+    private javax.swing.JButton botEditar;
+    private javax.swing.JButton botLimpiar;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tabAulas;
+    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

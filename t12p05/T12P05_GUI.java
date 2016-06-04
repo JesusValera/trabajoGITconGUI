@@ -6,26 +6,52 @@ import modelo.ConexionBD;
 public class T12P05_GUI extends javax.swing.JFrame {
 
     ConexionBD conn;
+    PanelArmarioAlta pArmA;
+    PanelArmarioBuscador pArmB;
+    PanelAulaAlta pAulA;
+    PanelAulaBuscador pAulB;
+    PanelProductoAlta pProA;
+    PanelProductoBuscador pProB;
     
     public T12P05_GUI() {
         initComponents();
+        conn = new ConexionBD();
         myInit();
     }
 
     private void myInit() {
-        conn = new ConexionBD();
         //------------ CARGAR DATOS -------------//
         try {
             conn.abrirConexion();
-            System.out.println("DATOS CARGADOS CORRECTAMENTE.");
+            System.out.println("Datos cargados correctamente.");
         } catch (Exception e) {
             System.out.println("¡ERROR!\n" + e.getMessage());
         }
         //---------- FIN CARGAR DATOS -------------//
         
+        pArmA = new PanelArmarioAlta();
+        add(pArmA);
+        pArmB = new PanelArmarioBuscador();
+        add(pArmB);
+        pAulA = new PanelAulaAlta(conn);
+        add(pAulA);
+        pAulB = new PanelAulaBuscador(conn, pAulA);
+        add(pAulB);
+        pProA = new PanelProductoAlta();
+        add(pProA);
+        pProB = new PanelProductoBuscador();
+        add(pProB);
         
-        // CREAR PANELES
-        
+        ocultarPaneles();
+    }
+    
+    private void ocultarPaneles() {
+        pAulA.setVisible(false);
+        pAulB.setVisible(false);
+        pArmA.setVisible(false);
+        pArmB.setVisible(false);
+        pProA.setVisible(false);
+        pProB.setVisible(false);
     }
     
     public static void main(String args[]) {
@@ -53,10 +79,8 @@ public class T12P05_GUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new T12P05_GUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new T12P05_GUI().setVisible(true);
         });
     }
     
@@ -86,6 +110,7 @@ public class T12P05_GUI extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(680, 440));
         setPreferredSize(new java.awt.Dimension(680, 440));
         setResizable(false);
+        getContentPane().setLayout(new java.awt.FlowLayout());
 
         menuPrincipal.setText("Principal");
 
@@ -164,55 +189,56 @@ public class T12P05_GUI extends javax.swing.JFrame {
 
         setJMenuBar(menu);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 680, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuPrincipalSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrincipalSalirActionPerformed
-        int op = JOptionPane.showConfirmDialog(this, 
-                "¿Seguro que quiere salir?", 
-                "SALIR", 
-                JOptionPane.WARNING_MESSAGE);
+        int op = 0;
+//        int op = JOptionPane.showConfirmDialog(this, 
+//                "¿Seguro que quiere salir?", 
+//                "SALIR", 
+//                JOptionPane.WARNING_MESSAGE);
         switch (op) {
             case JOptionPane.YES_OPTION:
                 //------------ GUARDAR DATOS --------------//
                 try {
                     conn.cerrarConexion();
-                    System.out.println("DATOS GUARDADOS CORRECTAMENTE.");
-
+                    System.out.println("Datos guardados correctamente.");
+                    this.setVisible(false);
+                    this.dispose();
                 } catch (Exception e) {
                     System.out.println("¡ERROR!\n" + e.getMessage());
                 }
                 //---------- FIN GUARDAR DATOS --------------//
-                
-                this.setVisible(false);
-                this.dispose();
-                
-                break;
         }
         
     }//GEN-LAST:event_menuPrincipalSalirActionPerformed
 
     private void menuAulasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAulasActionPerformed
-        // TODO add your handling code here:
+        ocultarPaneles();
+        if (evt.getActionCommand().equals("Alta")) {
+            pAulA.mostrar(null);
+        } else if (evt.getActionCommand().equals("Buscador")) {
+            pAulB.mostrar();
+        }
     }//GEN-LAST:event_menuAulasActionPerformed
 
     private void menuArmariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuArmariosActionPerformed
-        // TODO add your handling code here:
+        ocultarPaneles();
+        if (evt.getActionCommand().equals("Alta")) {
+            pArmA.mostrar();
+        } else if (evt.getActionCommand().equals("Buscador")) {
+            pArmB.mostrar();
+        }
     }//GEN-LAST:event_menuArmariosActionPerformed
 
     private void menuProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductosActionPerformed
-        // TODO add your handling code here:
+        ocultarPaneles();
+        if (evt.getActionCommand().equals("Alta")) {
+            pProA.mostrar();
+        } else if (evt.getActionCommand().equals("Buscador")) {
+            pProB.mostrar();
+        }
     }//GEN-LAST:event_menuProductosActionPerformed
 
 

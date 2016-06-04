@@ -127,7 +127,70 @@ public class Aula implements Comparable<Aula> {
             throw new Exception("Error listadoAulas", e);
         }
     }
+    
+    public static int generarId(ConexionBD conn) throws Exception {
+        try {
+            String sql = "SELECT max(id) + 1 FROM aulas";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            rs.next();
+            
+            int i = rs.getInt(1);
+            return i;
+        } catch (Exception e) {
+            throw new Exception("Error generarId() ", e);
+        }
+    }
+    
+    public static void buscarAulas(ConexionBD conn, List<Aula> tAulas, String id, String nombre) {
+        try {
+            
+            String sql = "SELECT * FROM aulas WHERE " +
+                            "id LIKE '%" +id +"%' and " +
+                            "nombre LIKE '%" +nombre +"%'";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            while (rs.next()) {
+                Aula aula = new Aula();
+                aula.setId(rs.getInt("id"));
+                aula.setNombre(rs.getString("nombre"));
+                aula.setDescripcion(rs.getString("descripcion"));
+                tAulas.add(aula);
+            }
+            
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    public void recuperarAula(ConexionBD conn) throws Exception {
+        try {
+            String sql = "SELECT * FROM aulas WHERE id = " +id;
+            ResultSet rs = conn.getSt().executeQuery(sql);
 
+            rs.next();
+            this.setId(rs.getInt("id"));
+            this.setNombre(rs.getString("nombre"));
+            this.setDescripcion(rs.getString("descripcion"));
+                
+        } catch (Exception e) {
+            throw new Exception("Error recuperarAula()", e);
+        }
+    }
+
+    public void updateAula(ConexionBD conn) throws Exception {
+        try {
+            String sql = "UPDATE aulas SET "+
+                    "nombre = '" +nombre +
+                    "', descripcion = '" +descripcion +
+                    "' WHERE id = " +id;
+            conn.getSt().executeUpdate(sql);
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Error updateAula()", e);
+        }
+    }
+    
     @Override
     public int compareTo(Aula o) {
         return Integer.compare(this.id, o.id);
