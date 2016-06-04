@@ -16,18 +16,6 @@ import modelo.Registro;
 
 public class T12P05 {
 
-    /**
-     * Ya esta terminado el programa. Simplemente faltaria depurar los errores
-     * que aparecen en vez de mostrar "Error metodoX()" por algo mas descriptivo.
-     * 
-     * El modelo seguido es el siguiente:
-     * 
-     * Aula contiene armarios. (id -> idAula)
-     * Armarios contienen productos. (id -> idArmario)
-     * Productos contienen referencias. (id -> idProducto)
-     * Referencias contienen registros. (numRef -> numRef)
-     * 
-     */
     private static void MenuOp() {
         System.out.println("Seleccionar una opcion:");
         System.out.println("-----------------------");

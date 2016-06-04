@@ -84,7 +84,7 @@ public class ConexionBD {
     
     public void abrirConexion() throws Exception {
         try {
-            String url = "jdbc:mysql://localhost:3306/t11p03?useSSL=false";
+            String url = "jdbc:mysql://localhost:3306/t12p05?useSSL=false";
             conn = DriverManager.getConnection(url, "root", "alumno");
             st = conn.createStatement();
             crearTablas();
