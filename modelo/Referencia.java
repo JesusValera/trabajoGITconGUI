@@ -61,7 +61,6 @@ public class Referencia {
     
     public void altaReferencia(ConexionBD conn) throws Exception {
         try {
-            
             String sql = "INSERT INTO referencias (num_ref, id_producto, baja) VALUES('"
                     +this.numRef +"', "
                     +this.idProducto +", "
@@ -70,6 +69,8 @@ public class Referencia {
             
         } catch (SQLException e) {
             throw new Exception("Error altaReferencia\n", e);
+        } catch (Exception e) {
+            throw new Exception("¡¡Referencia ya existe!!", e);
         }
     }
     

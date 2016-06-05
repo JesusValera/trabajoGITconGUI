@@ -51,11 +51,11 @@ public class Aula implements Comparable<Aula> {
         }
     }
 
-    public int altaAula(ConexionBD conn) throws Exception {
+    public void altaAula(ConexionBD conn) throws Exception {
         // No es necesario hacer un existeAula porque siempre tiene auto_increment.
         try {
-
-            String sql = "INSERT INTO aulas(nombre, descripcion) VALUES('"
+            String sql = "INSERT INTO aulas VALUES("
+                    + this.id +", '"
                     + this.nombre + "','"
                     + this.descripcion + "')";
 
@@ -64,7 +64,7 @@ public class Aula implements Comparable<Aula> {
             ResultSet generatedKeys = conn.getSt().getGeneratedKeys();
             generatedKeys.next();
 
-            return generatedKeys.getInt(1);
+            //return generatedKeys.getInt(1);
         } catch (SQLException e) {
             throw new Exception("Error altaAula()\n", e);
         }
@@ -143,7 +143,6 @@ public class Aula implements Comparable<Aula> {
     
     public static void buscarAulas(ConexionBD conn, List<Aula> tAulas, String id, String nombre) {
         try {
-            
             String sql = "SELECT * FROM aulas WHERE " +
                             "id LIKE '%" +id +"%' and " +
                             "nombre LIKE '%" +nombre +"%'";

@@ -16,25 +16,14 @@ import modelo.Registro;
 
 public class T12P05 {
 
-    private static void MenuOp() {
-        System.out.println("Seleccionar una opcion:");
-        System.out.println("-----------------------");
-        System.out.println("");
-        System.out.println("1.- Alta de Aula.");
-        System.out.println("2.- Baja de Aula.");
-        System.out.println("3.- Alta de Armario.");
-        System.out.println("4.- Baja de Armario.");
-        System.out.println("5.- Alta de Producto.");
-        System.out.println("6.- Baja de Producto.");
-        System.out.println("7.- Listado de Aulas y Armarios.");
-        System.out.println("8.- Listado de Productos por Armario.");
-        System.out.println("9.- Registro de Productos.");
-        System.out.println("10.- Registro Completo de todo en Arbol");
-        System.out.println("0.- Salir.");
-        System.out.println("");
-        System.out.print("Opcion? ");
-    }
-
+    /**
+     * 
+     * NO FUNCIONA POR CONSOLA PORQUE ESTA MODIFICADO
+     * EL METODO DE ALTA-XXX PARA QUE SE ADAPTE AL GUI.
+     * 
+     * @param args 
+     */
+    
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -42,7 +31,6 @@ public class T12P05 {
         int op;
 
         //------------ CARGAR DATOS -------------//
-        
         System.out.println("CARGANDO DATOS ...");
         
         try {
@@ -52,7 +40,6 @@ public class T12P05 {
         } catch (Exception e) {
             System.out.println("¡ERROR!\n" + e.getMessage());
         }
-
         //---------- FIN CARGAR DATOS -------------//
         do {
             MenuOp();
@@ -77,9 +64,9 @@ public class T12P05 {
                         } while (descripcionAula.isEmpty());
 
                         Aula aula = new Aula(nombreAula, descripcionAula);
-                        int aulaID = aula.altaAula(conn);
+                        //////////////////////////////int aulaID = aula.altaAula(conn);
 
-                        System.out.println("Aula correcta. ID: " + aulaID);
+                        //////////////////////////////System.out.println("Aula correcta. ID: " + aulaID);
 
                     } catch (Exception e) {
                         System.out.println("¡¡Error!!" + e.getMessage());
@@ -130,8 +117,8 @@ public class T12P05 {
 
                         Armario armario = new Armario(idAula, nombreArmario, descripcionArmario);
 
-                        int armarioID = armario.altaArmario(conn);
-                        System.out.println("Armario correcto. IDAula: " + armario.getIdAula() + ". ID: " + armarioID);
+                        //////////////////////////////int armarioID = armario.altaArmario(conn);
+                        //////////////////////////////System.out.println("Armario correcto. IDAula: " + armario.getIdAula() + ". ID: " + armarioID);
 
                     } catch (Exception e) {
                         System.out.println("Error\n" + e.getMessage());
@@ -206,17 +193,19 @@ public class T12P05 {
                         System.out.print("Numero referencia: ");
                         String numeroRef = sc.next();
                         referencia = new Referencia(numeroRef, idProducto5, false);
-
                         try {
                             referencia.altaReferencia(conn);
                             System.out.println("Referencia correcta.");
                             borrarProducto = false;
-                            Registro registro5 = new Registro(idProducto5, numeroRef);
-                            registro5.setNombre(producto5.getNombre());
+                            
+                            // Registro
+                            Registro registro5 = new Registro();
+                            registro5.setIdProducto(idProducto5);
+                            registro5.setNumRef(numeroRef);
+                            registro5.setNombre(nombre5);
                             registro5.altaRegistro(conn);
-
                         } catch (Exception e) {
-                            System.out.println("¡¡Referencia ya existe!!");
+                            e.printStackTrace();
                         }
                         System.out.print("\nAnadir nueva referencia (s/n)? ");
                         otro = sc.next();
@@ -405,7 +394,6 @@ public class T12P05 {
         System.out.println("GUARDANDO DATOS...");
 
         //------------ GUARDAR DATOS --------------//
-        
         try {
 
             conn.cerrarConexion();
@@ -415,8 +403,26 @@ public class T12P05 {
         } catch (Exception e) {
             System.out.println("¡ERROR!\n" + e.getMessage());
         }
-
         //---------- FIN GUARDAR DATOS --------------//
+    }
+
+    private static void MenuOp() {
+        System.out.println("Seleccionar una opcion:");
+        System.out.println("-----------------------");
+        System.out.println("");
+        System.out.println("1.- Alta de Aula.");
+        System.out.println("2.- Baja de Aula.");
+        System.out.println("3.- Alta de Armario.");
+        System.out.println("4.- Baja de Armario.");
+        System.out.println("5.- Alta de Producto.");
+        System.out.println("6.- Baja de Producto.");
+        System.out.println("7.- Listado de Aulas y Armarios.");
+        System.out.println("8.- Listado de Productos por Armario.");
+        System.out.println("9.- Registro de Productos.");
+        System.out.println("10.- Registro Completo de todo en Arbol");
+        System.out.println("0.- Salir.");
+        System.out.println("");
+        System.out.print("Opcion? ");
     }
 
 }

@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import modelo.Producto.CATEGORIA;
 
@@ -56,16 +57,20 @@ public class Armario implements Comparable<Armario> {
         }
     }
     
-    public int altaArmario(ConexionBD conn) throws Exception{
-        // No es necesario hacer un existeAula porque siempre tiene un ID nuevo
+    public void altaArmario(ConexionBD conn) throws Exception{
+        // No es necesario hacer un existeArmario porque siempre tiene un ID nuevo
         try {
-            String sql = "INSERT INTO armarios(id_aula, nombre, descripcion) VALUES(" +this.idAula +", '" +this.nombre +"', '" +this.descripcion +"')";
+            String sql = "INSERT INTO armarios(id_aula, nombre, descripcion) VALUES(" 
+                    +this.id +", "
+                    +this.idAula +", '" 
+                    +this.nombre +"', '" 
+                    +this.descripcion +"')";
             conn.getSt().executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
             
             ResultSet generatedKeys = conn.getSt().getGeneratedKeys();
             generatedKeys.next();
             
-            return generatedKeys.getInt(1);
+            //return generatedKeys.getInt(1);
         } catch (SQLException e) {
             throw new Exception("Error altaAula()\n",e);
         }
@@ -81,6 +86,71 @@ public class Armario implements Comparable<Armario> {
             } catch (SQLException e) {
                 throw new Exception("Error bajaArmario()\n", e);
             }
+        }
+    }
+    
+    public static void buscarArmarios(ConexionBD conn, List<Armario> tArmarios, String id, String idAula, String nombre) throws Exception {
+        try {
+            String sql = "SELECT * FROM armarios WHERE " +
+                            "id LIKE '%" +id +"%' AND " +
+                            "id_aula LIKE '%" +idAula +"%' AND " +
+                            "nombre LIKE '%" +nombre +"%'";
+            //String sql = "SELECT * FROM armarios";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            while (rs.next()) {
+                Armario armario = new Armario();
+                armario.setId(rs.getInt("id"));
+                armario.setIdAula(rs.getInt("id_aula"));
+                armario.setNombre(rs.getString("nombre"));
+                armario.setDescripcion(rs.getString("descripcion"));
+                
+                tArmarios.add(armario);
+            }
+        } catch (Exception e) {
+            throw new Exception("Error listarArmarios()", e);
+        }
+    }
+    
+    public static int generarId(ConexionBD conn) throws Exception {
+        try {
+            String sql = "SELECT max(id) + 1 FROM armarios";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            rs.next();
+            
+            int i = rs.getInt(1);
+            return i;
+        } catch (Exception e) {
+            throw new Exception("Error generarId() ", e);
+        }
+    }
+    
+    public void recuperarArmario(ConexionBD conn) throws Exception {
+        try {
+            String sql = "SELECT * FROM armarios WHERE id = " +id;
+            ResultSet rs = conn.getSt().executeQuery(sql);
+
+            rs.next();
+            this.setId(rs.getInt("id"));
+            this.setIdAula(rs.getInt("id_aula"));
+            this.setNombre(rs.getString("nombre"));
+            this.setDescripcion(rs.getString("descripcion"));
+                
+        } catch (Exception e) {
+            throw new Exception("Error recuperarArmario()", e);
+        }
+    }
+    
+    public void updateArmario(ConexionBD conn) throws Exception {
+        try {
+            String sql = "UPDATE armarios SET "+
+                    "nombre = '" +nombre +
+                    "', descripcion = '" +descripcion +
+                    "' WHERE id = " +id;
+            conn.getSt().executeUpdate(sql);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Error updateArmario()", e);
         }
     }
     
@@ -128,5 +198,5 @@ public class Armario implements Comparable<Armario> {
             }
         }
     }
-    
+
 }

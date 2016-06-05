@@ -30,6 +30,8 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
     void mostrar() {
         this.setVisible(true);
         modelo.setRowCount(0);
+        txtId.setText("");
+        txtNombre.setText("");
     }
     
     @Override
@@ -48,9 +50,9 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
 
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        labCabecera = new javax.swing.JLabel();
+        labId = new javax.swing.JLabel();
+        labNombre = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         botBuscar = new javax.swing.JButton();
         txtNombre = new javax.swing.JTextField();
@@ -70,13 +72,13 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
         setMaximumSize(new java.awt.Dimension(620, 420));
         setMinimumSize(new java.awt.Dimension(620, 420));
 
-        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("BUSCADOR DE AULA");
+        labCabecera.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        labCabecera.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labCabecera.setText("BUSCADOR DE AULA");
 
-        jLabel2.setText("ID:");
+        labId.setText("ID:");
 
-        jLabel3.setText("Nombre:");
+        labNombre.setText("Nombre:");
 
         botBuscar.setText("Buscar");
         botBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -143,14 +145,14 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                            .addComponent(labId)
+                            .addComponent(labNombre))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNombre)
                             .addComponent(txtId))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -175,21 +177,21 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(labCabecera)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(labId)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(botBuscar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
+                        .addComponent(labNombre)
                         .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(botLimpiar))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botAceptar)
@@ -224,8 +226,8 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
     }//GEN-LAST:event_botAltaActionPerformed
 
     private void botBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botBajaActionPerformed
-        String id = (String) modelo.getValueAt(tabAulas.getSelectedRow(), 0);
-        if (!id.equals("-1")) {
+        if (tabAulas.getSelectedRow() >= 0) {
+            String id = (String) modelo.getValueAt(tabAulas.getSelectedRow(), 0);
             int op = JOptionPane.showConfirmDialog(this, 
                     "Seguro que desea eliminar el aula con ID " +id, 
                     "ELIMINAR", 
@@ -247,9 +249,8 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
     }//GEN-LAST:event_botBajaActionPerformed
 
     private void botEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botEditarActionPerformed
-        if (tabAulas.getSelectedRow() > 0) {
+        if (tabAulas.getSelectedRow() >= 0) {
         String id = (String) modelo.getValueAt(tabAulas.getSelectedRow(), 0);
-        //if (!id.equals("-1")) {
             Aula aula = new Aula();
             aula.setId(Integer.parseInt(id));
             try {
@@ -272,10 +273,10 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
     private javax.swing.JButton botLimpiar;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labCabecera;
+    private javax.swing.JLabel labId;
+    private javax.swing.JLabel labNombre;
     private javax.swing.JTable tabAulas;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;

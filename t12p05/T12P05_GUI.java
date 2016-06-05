@@ -20,6 +20,7 @@ public class T12P05_GUI extends javax.swing.JFrame {
     }
 
     private void myInit() {
+        this.setLocationRelativeTo(null);
         //------------ CARGAR DATOS -------------//
         try {
             conn.abrirConexion();
@@ -29,9 +30,9 @@ public class T12P05_GUI extends javax.swing.JFrame {
         }
         //---------- FIN CARGAR DATOS -------------//
         
-        pArmA = new PanelArmarioAlta();
+        pArmA = new PanelArmarioAlta(conn);
         add(pArmA);
-        pArmB = new PanelArmarioBuscador();
+        pArmB = new PanelArmarioBuscador(conn, pArmA);
         add(pArmB);
         pAulA = new PanelAulaAlta(conn);
         add(pAulA);
@@ -194,6 +195,7 @@ public class T12P05_GUI extends javax.swing.JFrame {
 
     private void menuPrincipalSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrincipalSalirActionPerformed
         int op = 0;
+        // COMENTO ESTO PARA QUE NO ME DE EL FOLLON; DEBERIA ESTAR DESCOMENTADO EN LA VERSION FINAL. :)
 //        int op = JOptionPane.showConfirmDialog(this, 
 //                "¿Seguro que quiere salir?", 
 //                "SALIR", 
@@ -226,7 +228,7 @@ public class T12P05_GUI extends javax.swing.JFrame {
     private void menuArmariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuArmariosActionPerformed
         ocultarPaneles();
         if (evt.getActionCommand().equals("Alta")) {
-            pArmA.mostrar();
+            pArmA.mostrar(null);
         } else if (evt.getActionCommand().equals("Buscador")) {
             pArmB.mostrar();
         }
