@@ -130,7 +130,7 @@ public class Aula implements Comparable<Aula> {
     
     public static int generarId(ConexionBD conn) throws Exception {
         try {
-            String sql = "SELECT max(id) + 1 FROM aulas";
+            String sql = "SELECT IFNULL(max(id), 0) + 1 FROM aulas";
             ResultSet rs = conn.getSt().executeQuery(sql);
             rs.next();
             

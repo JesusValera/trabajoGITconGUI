@@ -13,14 +13,14 @@ public class Producto implements Comparable<Producto> {
     public enum CATEGORIA {Otra, Hardware, Software};
     
     private long id; // automatico
-    private int idArmario; // 0 = no asignado
+    private Integer idArmario; // 0 = no asignado
     private String nombre; // NOT NULL
     private List<Referencia> tReferencias;
     private CATEGORIA categoria;
     private String descripcion; // NULL
 
     public Producto() {
-        idArmario = 0;
+        idArmario = null;
         nombre = "";
         tReferencias = new ArrayList<>();
         categoria = null;
@@ -36,14 +36,14 @@ public class Producto implements Comparable<Producto> {
     }
 
     public long getId() { return id; }
-    public int getIdArmario() { return idArmario; }
+    public Integer getIdArmario() { return idArmario; }
     public String getNombre() { return nombre; }
     public List<Referencia> gettReferencias() { return tReferencias; }
     public CATEGORIA getCategoria() { return categoria; }
     public String getDescripcion() { return descripcion; }
     
     public void setId(long id) { this.id = id; }
-    public void setIdArmario(int idArmario) { this.idArmario = idArmario; }
+    public void setIdArmario(Integer idArmario) { this.idArmario = idArmario; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void settReferencias(List<Referencia> tReferencias) { this.tReferencias = tReferencias; }
     public void setCategoria(CATEGORIA categoria) { this.categoria = categoria; }
@@ -65,21 +65,20 @@ public class Producto implements Comparable<Producto> {
         }
     }
     
-    public int altaProducto(ConexionBD conn) throws Exception {
-        String sql;
+    public void altaProducto(ConexionBD conn) throws Exception {
         try {
-            
-            sql = "INSERT INTO productos(id_armario, nombre, categoria, descripcion) VALUES("+
-                    this.idArmario +", '"+
+            String sql = "INSERT INTO productos VALUES("+
+                    this.id +", " +
+                    ((this.idArmario==null)?null:this.idArmario) +", '"+
                     this.nombre +"', '"+
-                    this.categoria.toString() +"', '"+
+                    ((this.categoria==null)?"":this.categoria.toString()) +"', '"+
                     this.descripcion +"')";
             
             conn.getSt().executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
             ResultSet generatedKeys = conn.getSt().getGeneratedKeys();
             generatedKeys.next();
             
-            return generatedKeys.getInt(1);
+            //return generatedKeys.getInt(1);
         } catch (SQLException e) {
             throw new Exception("Error altaProducto\n", e);
         }
@@ -112,6 +111,89 @@ public class Producto implements Comparable<Producto> {
             
         } catch (Exception e) {
             throw new Exception("Error getProducto\n", e);
+        }
+    }
+    
+    public static void buscarProductos(ConexionBD conn, List<Producto> tProductos, String id, String idArmario, String nombre, String categoria) throws Exception {
+        try {
+            String sql = "SELECT * FROM productos WHERE " +
+                            "id LIKE '%" +id +"%' AND " +
+                            "(id_armario LIKE '%" +idArmario +"%' " +
+                            "OR id_armario IS NULL) AND " +
+                            "nombre LIKE '%" +nombre +"%' AND " +
+                            "(categoria = '" +categoria +"')";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            while (rs.next()) {
+                Producto producto = new Producto();
+                producto.setId(rs.getLong("id"));
+                producto.setIdArmario(rs.getInt("id_armario"));
+                if (rs.wasNull()) {
+                    producto.setIdArmario(null);
+                }
+                producto.setNombre(rs.getString("nombre"));
+                producto.setDescripcion(rs.getString("descripcion"));
+                if (rs.getString("categoria").equals("")) {
+                    producto.setCategoria(null);
+                } else {
+                    producto.setCategoria(CATEGORIA.valueOf(rs.getString("categoria")));
+                }
+                tProductos.add(producto);
+            }
+        } catch (Exception e) {
+            throw new Exception("Error listarArmarios()", e);
+        }
+    }
+    
+    public static int generarId(ConexionBD conn) throws Exception {
+        try {
+            String sql = "SELECT IFNULL(max(id), 0) + 1 FROM productos";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            rs.next();
+            
+            int i = rs.getInt(1);
+            return i;
+        } catch (Exception e) {
+            throw new Exception("Error generarId() ", e);
+        }
+    }
+    
+    public void recuperarProducto(ConexionBD conn) throws Exception {
+        try {
+            String sql = "SELECT * FROM productos WHERE id = " +id;
+            ResultSet rs = conn.getSt().executeQuery(sql);
+
+            rs.next();
+            this.setId(rs.getInt("id"));
+            this.setIdArmario(rs.getInt("id_armario"));
+            if (rs.wasNull()) {
+                this.setIdArmario(null);
+            }
+            this.setNombre(rs.getString("nombre"));
+            this.setDescripcion(rs.getString("descripcion"));
+            //this.setCategoria(CATEGORIA.valueOf(rs.getString("categoria")));
+            if (rs.getString("categoria").equals("")) {
+                this.setCategoria(null);
+            } else {
+                this.setCategoria(CATEGORIA.valueOf(rs.getString("categoria")));
+            }    
+        } catch (Exception e) {
+            throw new Exception("Error recuperarProducto()", e);
+        }
+    }
+    
+    public void updateProducto(ConexionBD conn) throws Exception {
+        try {
+            String sql = "UPDATE productos SET "
+                    + "id_armario = " +idArmario +", "
+                    + "nombre = '" +nombre +"', "
+                    + "descripcion = '" +descripcion +"', "
+                    + "categoria = '" +categoria
+                    + "' WHERE id = " +id;
+            conn.getSt().executeUpdate(sql);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Error updateProducto()", e);
         }
     }
     

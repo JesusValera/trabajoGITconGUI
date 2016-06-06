@@ -100,6 +100,9 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabAulas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabAulas.getTableHeader().setResizingAllowed(false);
+        tabAulas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabAulas);
 
         botAceptar.setText("Aceptar");

@@ -103,6 +103,10 @@ public class PanelArmarioBuscador extends javax.swing.JPanel implements IBusCall
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabArmarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tabArmarios.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabArmarios.getTableHeader().setResizingAllowed(false);
+        tabArmarios.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabArmarios);
 
         botAceptar.setText("Aceptar");

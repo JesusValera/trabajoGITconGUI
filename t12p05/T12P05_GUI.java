@@ -38,9 +38,9 @@ public class T12P05_GUI extends javax.swing.JFrame {
         add(pAulA);
         pAulB = new PanelAulaBuscador(conn, pAulA);
         add(pAulB);
-        pProA = new PanelProductoAlta();
+        pProA = new PanelProductoAlta(conn);
         add(pProA);
-        pProB = new PanelProductoBuscador();
+        pProB = new PanelProductoBuscador(conn, pProA);
         add(pProB);
         
         ocultarPaneles();
@@ -237,7 +237,7 @@ public class T12P05_GUI extends javax.swing.JFrame {
     private void menuProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductosActionPerformed
         ocultarPaneles();
         if (evt.getActionCommand().equals("Alta")) {
-            pProA.mostrar();
+            pProA.mostrar(null);
         } else if (evt.getActionCommand().equals("Buscador")) {
             pProB.mostrar();
         }

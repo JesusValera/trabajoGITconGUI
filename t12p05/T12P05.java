@@ -2,7 +2,6 @@ package t12p05;
 
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,10 +17,8 @@ public class T12P05 {
 
     /**
      * 
-     * NO FUNCIONA POR CONSOLA PORQUE ESTA MODIFICADO
-     * EL METODO DE ALTA-XXX PARA QUE SE ADAPTE AL GUI.
+     * SIN SOPORTE, NO FUNCIONA EN MODO CONSOLA.
      * 
-     * @param args 
      */
     
     public static void main(String[] args) {
@@ -64,9 +61,10 @@ public class T12P05 {
                         } while (descripcionAula.isEmpty());
 
                         Aula aula = new Aula(nombreAula, descripcionAula);
-                        //////////////////////////////int aulaID = aula.altaAula(conn);
+                        //int aulaID = 
+                                aula.altaAula(conn);
 
-                        //////////////////////////////System.out.println("Aula correcta. ID: " + aulaID);
+                        System.out.println("Aula correcta. ID: ");// + aulaID);
 
                     } catch (Exception e) {
                         System.out.println("¡¡Error!!" + e.getMessage());
@@ -117,8 +115,9 @@ public class T12P05 {
 
                         Armario armario = new Armario(idAula, nombreArmario, descripcionArmario);
 
-                        //////////////////////////////int armarioID = armario.altaArmario(conn);
-                        //////////////////////////////System.out.println("Armario correcto. IDAula: " + armario.getIdAula() + ". ID: " + armarioID);
+                        //int armarioID = 
+                        armario.altaArmario(conn);
+                        System.out.println("Armario correcto.");// IDAula: " + armario.getIdAula() + ". ID: " + armarioID);
 
                     } catch (Exception e) {
                         System.out.println("Error\n" + e.getMessage());
@@ -179,28 +178,29 @@ public class T12P05 {
                     Producto producto5 = new Producto(IDArmario5, nombre5, categoria5, descripcion5);
                     int idProducto5;
                     try {
-                        idProducto5 = producto5.altaProducto(conn);
+                        //idProducto5 = 
+                                producto5.altaProducto(conn);
                     } catch (Exception e) {
                         System.out.println("¡Producto ya existe!");
                         break;
                     }
                     boolean borrarProducto = true;
-
+                    //idProducto5 = Producto.getProducto(op, conn)
                     //Referencia
                     Referencia referencia;
                     String otro;
                     do {
                         System.out.print("Numero referencia: ");
                         String numeroRef = sc.next();
-                        referencia = new Referencia(numeroRef, idProducto5, false);
+//                        referencia = new Referencia(numeroRef, idProducto5, false);
                         try {
-                            referencia.altaReferencia(conn);
+//                            referencia.altaReferencia(conn);
                             System.out.println("Referencia correcta.");
                             borrarProducto = false;
                             
                             // Registro
                             Registro registro5 = new Registro();
-                            registro5.setIdProducto(idProducto5);
+//                            registro5.setIdProducto(idProducto5);
                             registro5.setNumRef(numeroRef);
                             registro5.setNombre(nombre5);
                             registro5.altaRegistro(conn);
@@ -213,18 +213,18 @@ public class T12P05 {
 
                     if (borrarProducto) {
                         try {
-                            Producto.bajaProducto(idProducto5, conn);
+//                            Producto.bajaProducto(idProducto5, conn);
                         } catch (Exception e) {
                             System.out.println("Debe de crearse minimo una referencia. Producto no creado.");
                         }
                     } else {
-                        System.out.println("Producto creado con ID: " + idProducto5 + " y REFERENCIAS:");
+//                        System.out.println("Producto creado con ID: " + idProducto5 + " y REFERENCIAS:");
                         try {
-                            List<String> referencias = Referencia.getReferenciasCreadas(idProducto5, conn);
+//                            List<String> referencias = Referencia.getReferenciasCreadas(idProducto5, conn);
 
-                            for (String ref : referencias) {
-                                System.out.println("\t\t\t\t\t " + ref);
-                            }
+//                            for (String ref : referencias) {
+//                                System.out.println("\t\t\t\t\t " + ref);
+//                            }
                         } catch (Exception e) {
                             System.out.println("Error!\n" + e.getMessage());
                         }
@@ -289,7 +289,6 @@ public class T12P05 {
                 }
                 case 8: // 8.- Listado de Productos de un armario.
                 {
-
                     System.out.print("Escribe el nombre del Aula (0 mostrar todos los productos): ");
                     String nombreAula8 = sc.next();
                     System.out.println("LISTADO DE " + ((nombreAula8.equals("0")) ? "TODOS LOS PRODUCTOS" : "PRODUCTOS EN EL AULA DE " + nombreAula8));

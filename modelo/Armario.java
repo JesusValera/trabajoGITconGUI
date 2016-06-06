@@ -60,7 +60,7 @@ public class Armario implements Comparable<Armario> {
     public void altaArmario(ConexionBD conn) throws Exception{
         // No es necesario hacer un existeArmario porque siempre tiene un ID nuevo
         try {
-            String sql = "INSERT INTO armarios(id_aula, nombre, descripcion) VALUES(" 
+            String sql = "INSERT INTO armarios VALUES(" 
                     +this.id +", "
                     +this.idAula +", '" 
                     +this.nombre +"', '" 
@@ -113,7 +113,7 @@ public class Armario implements Comparable<Armario> {
     
     public static int generarId(ConexionBD conn) throws Exception {
         try {
-            String sql = "SELECT max(id) + 1 FROM armarios";
+            String sql = "SELECT IFNULL(max(id), 0) + 1 FROM armarios";
             ResultSet rs = conn.getSt().executeQuery(sql);
             rs.next();
             
