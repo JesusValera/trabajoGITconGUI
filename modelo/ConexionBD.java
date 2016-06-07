@@ -56,7 +56,7 @@ public class ConexionBD {
                 "num_ref VARCHAR(12)," +
                 "id_producto INTEGER NOT NULL," +
                 "baja BOOLEAN," +
-                "CONSTRAINT ref_idprod_numref_pk PRIMARY KEY(num_ref)," +
+                "CONSTRAINT ref_idprod_numref_pk PRIMARY KEY(num_ref, id_producto)," +
                 "CONSTRAINT ref_idprod_fk FOREIGN KEY(id_producto) REFERENCES productos(id) ON DELETE CASCADE)";
             st.executeUpdate(sql);
             // registros
@@ -67,7 +67,7 @@ public class ConexionBD {
                 "fecha_alta DATE," +
                 "fecha_baja DATE," +
                 "causa_baja VARCHAR(100)," +
-                "CONSTRAINT reg_idprod_numref_pk PRIMARY KEY(num_ref)," +
+                "CONSTRAINT reg_idprod_numref_pk PRIMARY KEY(num_ref, id_producto)," +
                 "CONSTRAINT reg_idprod_numref_fk FOREIGN KEY(num_ref) REFERENCES referencias(num_ref) ON DELETE CASCADE);";
             st.executeUpdate(sql);
             

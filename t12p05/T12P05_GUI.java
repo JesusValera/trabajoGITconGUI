@@ -12,6 +12,8 @@ public class T12P05_GUI extends javax.swing.JFrame {
     PanelAulaBuscador pAulB;
     PanelProductoAlta pProA;
     PanelProductoBuscador pProB;
+    PanelReferenciaAlta pRefA;
+    PanelReferenciaBuscador pRefB;
     
     public T12P05_GUI() {
         initComponents();
@@ -30,6 +32,10 @@ public class T12P05_GUI extends javax.swing.JFrame {
         }
         //---------- FIN CARGAR DATOS -------------//
         
+        pRefA = new PanelReferenciaAlta(conn);
+        add(pRefA);
+        pRefB = new PanelReferenciaBuscador(conn, pRefA);
+        add(pRefB);
         pArmA = new PanelArmarioAlta(conn);
         add(pArmA);
         pArmB = new PanelArmarioBuscador(conn, pArmA);
@@ -38,7 +44,7 @@ public class T12P05_GUI extends javax.swing.JFrame {
         add(pAulA);
         pAulB = new PanelAulaBuscador(conn, pAulA);
         add(pAulB);
-        pProA = new PanelProductoAlta(conn);
+        pProA = new PanelProductoAlta(conn, pRefA);
         add(pProA);
         pProB = new PanelProductoBuscador(conn, pProA);
         add(pProB);
@@ -47,6 +53,8 @@ public class T12P05_GUI extends javax.swing.JFrame {
     }
     
     private void ocultarPaneles() {
+        pRefA.setVisible(false);
+        pRefB.setVisible(false);
         pAulA.setVisible(false);
         pAulB.setVisible(false);
         pArmA.setVisible(false);
@@ -89,7 +97,6 @@ public class T12P05_GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuItem6 = new javax.swing.JMenuItem();
         menu = new javax.swing.JMenuBar();
         menuPrincipal = new javax.swing.JMenu();
         menuPrincipalSalir = new javax.swing.JMenuItem();
@@ -102,9 +109,11 @@ public class T12P05_GUI extends javax.swing.JFrame {
         menuProductos = new javax.swing.JMenu();
         menuProductosBuscador = new javax.swing.JMenuItem();
         menuProductosAlta = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-
-        jMenuItem6.setText("jMenuItem6");
+        menuListado = new javax.swing.JMenu();
+        menuListadoReferencias = new javax.swing.JMenuItem();
+        menuListadoRegistros = new javax.swing.JMenuItem();
+        menuAyuda = new javax.swing.JMenu();
+        menuAyudaInstrucciones = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(680, 440));
@@ -185,8 +194,32 @@ public class T12P05_GUI extends javax.swing.JFrame {
 
         menu.add(menuProductos);
 
-        jMenu5.setText("jMenu5");
-        menu.add(jMenu5);
+        menuListado.setText("Listado");
+
+        menuListadoReferencias.setText("Referencias");
+        menuListadoReferencias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuListadoActionPerformed(evt);
+            }
+        });
+        menuListado.add(menuListadoReferencias);
+
+        menuListadoRegistros.setText("Registros");
+        menuListadoRegistros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuListadoActionPerformed(evt);
+            }
+        });
+        menuListado.add(menuListadoRegistros);
+
+        menu.add(menuListado);
+
+        menuAyuda.setText("Ayuda");
+
+        menuAyudaInstrucciones.setText("Instrucciones");
+        menuAyuda.add(menuAyudaInstrucciones);
+
+        menu.add(menuAyuda);
 
         setJMenuBar(menu);
 
@@ -243,10 +276,21 @@ public class T12P05_GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_menuProductosActionPerformed
 
+    private void menuListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuListadoActionPerformed
+        ocultarPaneles();
+        if (evt.getActionCommand().equals("Referencias")) {
+            pRefB.mostrar();
+        } else if (evt.getActionCommand().equals("Registros")) {
+            
+            
+            //
+            
+            //
+        }
+    }//GEN-LAST:event_menuListadoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuArmarios;
     private javax.swing.JMenuItem menuArmariosAlta;
@@ -254,6 +298,11 @@ public class T12P05_GUI extends javax.swing.JFrame {
     private javax.swing.JMenu menuAulas;
     private javax.swing.JMenuItem menuAulasAlta;
     private javax.swing.JMenuItem menuAulasBuscador;
+    private javax.swing.JMenu menuAyuda;
+    private javax.swing.JMenuItem menuAyudaInstrucciones;
+    private javax.swing.JMenu menuListado;
+    private javax.swing.JMenuItem menuListadoReferencias;
+    private javax.swing.JMenuItem menuListadoRegistros;
     private javax.swing.JMenu menuPrincipal;
     private javax.swing.JMenuItem menuPrincipalSalir;
     private javax.swing.JMenu menuProductos;

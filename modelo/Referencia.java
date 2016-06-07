@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Referencia {
+public class Referencia implements Comparable<Referencia> {
     
     private String numRef;
     private long idProducto;
@@ -86,6 +86,41 @@ public class Referencia {
         }
     }
     
+    public static void buscarReferencia(ConexionBD conn, List<Referencia> tReferencia, String idProducto, String numRef, String baja) throws Exception {
+        try {
+            String sql = "SELECT * FROM referencias WHERE " +
+                            "num_ref LIKE '%" +numRef +"%' AND " +
+                            "id_producto LIKE '%" +idProducto +"%' AND " +
+                            "baja LIKE '%" +baja +"%'";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            while (rs.next()) {
+                Referencia referencia = new Referencia();
+                referencia.setNumRef(rs.getString("num_ref"));
+                referencia.setIdProducto(rs.getLong("id_producto"));
+                referencia.setBaja(rs.getBoolean("baja"));
+                tReferencia.add(referencia);
+            }
+        } catch (Exception e) {
+            throw new Exception("Error buscarProductos()", e);
+        }
+    }
+    
+    public void recuperarReferencia(ConexionBD conn) throws Exception {
+        try {
+            String sql = "SELECT * FROM referencias WHERE num_ref = '" +numRef +"' AND "
+                    + "id_producto = " +idProducto;
+            ResultSet rs = conn.getSt().executeQuery(sql);
+
+            rs.next();
+            this.setIdProducto(rs.getLong("id_producto"));
+            this.setNumRef(rs.getString("num_ref"));
+            this.setBaja(rs.getBoolean("baja"));
+                
+        } catch (Exception e) {
+            throw new Exception("Error recuperarArmario()", e);
+        }
+    }
+    
     public static List<String> getReferenciasCreadas(long idProducto, ConexionBD conn) throws Exception {
         try {
             
@@ -138,6 +173,11 @@ public class Referencia {
         } catch (Exception e) {
             throw new Exception("Error listarProductos\n", e);
         }
+    }
+
+    @Override
+    public int compareTo(Referencia o) {
+        return this.numRef.compareTo(o.numRef);
     }
     
 }

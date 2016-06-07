@@ -85,7 +85,7 @@ public class Producto implements Comparable<Producto> {
     }
     
     public static void bajaProducto(long id, ConexionBD conn) throws Exception {
-        if (existeProducto(id, conn)) {
+        if (!existeProducto(id, conn)) {
             throw new Exception("¡No existe producto!");
         }
         try {
@@ -140,7 +140,7 @@ public class Producto implements Comparable<Producto> {
                 tProductos.add(producto);
             }
         } catch (Exception e) {
-            throw new Exception("Error listarArmarios()", e);
+            throw new Exception("Error buscarProductos()", e);
         }
     }
     

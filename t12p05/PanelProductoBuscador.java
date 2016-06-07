@@ -322,7 +322,7 @@ public class PanelProductoBuscador extends javax.swing.JPanel implements IBusCal
     private void botBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botBajaActionPerformed
         // BAJA
         if (tabProductos.getSelectedRow() >= 0) {
-            Long id = (Long) modelo.getValueAt(tabProductos.getSelectedRow(), 0);
+            String id = (String) modelo.getValueAt(tabProductos.getSelectedRow(), 0);
             int op = JOptionPane.showConfirmDialog(this, 
                     "Seguro que desea eliminar el producto con ID: " +id, 
                     "ELIMINAR", 
@@ -330,11 +330,7 @@ public class PanelProductoBuscador extends javax.swing.JPanel implements IBusCal
             switch (op) {
                 case JOptionPane.YES_OPTION:
                 try {
-                    Producto.bajaProducto(id, conn);
-                    JOptionPane.showConfirmDialog(this, 
-                            "Aula eliminada.", 
-                            "ELIMINAR", 
-                            JOptionPane.OK_OPTION);
+                    Producto.bajaProducto(Long.parseLong(id), conn);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

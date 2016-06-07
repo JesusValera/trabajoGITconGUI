@@ -15,12 +15,14 @@ public class PanelProductoAlta extends javax.swing.JPanel {
 
     ConexionBD conn;
     IBusCallBack ibc;
+    PanelReferenciaAlta pRefA;
     DefaultComboBoxModel modelocombo;
     boolean edicion;
     
-    public PanelProductoAlta(ConexionBD conn) {
+    public PanelProductoAlta(ConexionBD conn, PanelReferenciaAlta pRefA) {
         initComponents();
         this.conn = conn;
+        this.pRefA = pRefA;
         modelocombo = new DefaultComboBoxModel(new String[] { "", 
             Producto.CATEGORIA.Hardware.toString(), 
             Producto.CATEGORIA.Software.toString(), 
@@ -261,6 +263,7 @@ public class PanelProductoAlta extends javax.swing.JPanel {
                         "Alta correcta.",
                         "ALTA", 
                         JOptionPane.INFORMATION_MESSAGE);
+                pRefA.mostrar(producto);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, 
                         "Error: " +e.getMessage(), 
