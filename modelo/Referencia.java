@@ -46,10 +46,10 @@ public class Referencia implements Comparable<Referencia> {
     public void settRegistro(List<Registro> tRegistro) { this.tRegistro = tRegistro; }
     
     //Alta
-    public static boolean existeReferencia(String numRef, ConexionBD conn) throws Exception {
+    public static boolean existeReferencia(String numRef, long idProducto, ConexionBD conn) throws Exception {
         try {
-            
-            String sql = "SELECT count(*) FROM referencias WHERE num_ref = '" +numRef +"'";
+            String sql = "SELECT count(*) FROM referencias WHERE num_ref = '" +numRef +"'"
+                    + " AND id_producto = "+idProducto;
             ResultSet rs = conn.getSt().executeQuery(sql);
             rs.next();
             
@@ -121,6 +121,22 @@ public class Referencia implements Comparable<Referencia> {
         }
     }
     
+    public void updateReferencia(ConexionBD conn) throws Exception {
+        try {
+            String sql = "UPDATE referencias SET "
+                    + "num_ref = '" +numRef +"', "
+                    + "id_producto = " +idProducto +", "
+                    + "baja = " +baja +" "
+                    + " WHERE num_ref = '" +numRef +"' AND "
+                    + "id_producto = " +idProducto;
+            conn.getSt().executeUpdate(sql);
+            
+        } catch (Exception e) {
+            //e.printStackTrace();
+            throw new Exception("Error updateReferencia()", e);
+        }
+    }
+    
     public static List<String> getReferenciasCreadas(long idProducto, ConexionBD conn) throws Exception {
         try {
             
@@ -160,7 +176,6 @@ public class Referencia implements Comparable<Referencia> {
                 Registro registro = new Registro();
                 registro.setNumRef(rs.getString("num_ref"));
                 registro.setIdProducto(rs.getLong("id_producto"));
-                registro.setNombre(rs.getString("nombre"));
                 Date fecAl = rs.getDate("fecha_alta");
                 registro.setFecAlta(((fecAl==null)?null:fecAl.toLocalDate()));
                 Date fecBa = rs.getDate("fecha_baja");
@@ -177,7 +192,7 @@ public class Referencia implements Comparable<Referencia> {
 
     @Override
     public int compareTo(Referencia o) {
-        return this.numRef.compareTo(o.numRef);
+        return String.valueOf(this.idProducto).compareTo(String.valueOf(o.getIdProducto()));
     }
-    
+
 }

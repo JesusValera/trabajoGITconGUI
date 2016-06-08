@@ -6,6 +6,7 @@ import modelo.ConexionBD;
 public class T12P05_GUI extends javax.swing.JFrame {
 
     ConexionBD conn;
+    PanelPrincipalSobre pPriS;
     PanelArmarioAlta pArmA;
     PanelArmarioBuscador pArmB;
     PanelAulaAlta pAulA;
@@ -14,6 +15,8 @@ public class T12P05_GUI extends javax.swing.JFrame {
     PanelProductoBuscador pProB;
     PanelReferenciaAlta pRefA;
     PanelReferenciaBuscador pRefB;
+    PanelRegistroBuscador pRegB;
+    PanelRegistroAlta pRegA;
     
     public T12P05_GUI() {
         initComponents();
@@ -32,9 +35,15 @@ public class T12P05_GUI extends javax.swing.JFrame {
         }
         //---------- FIN CARGAR DATOS -------------//
         
+        pPriS = new PanelPrincipalSobre();
+        add(pPriS);
+        pRegB = new PanelRegistroBuscador(conn);
+        add(pRegB);
+        pRegA = new PanelRegistroAlta(conn);
+        add(pRegA);
         pRefA = new PanelReferenciaAlta(conn);
         add(pRefA);
-        pRefB = new PanelReferenciaBuscador(conn, pRefA);
+        pRefB = new PanelReferenciaBuscador(conn, pRefA, pRegA);
         add(pRefB);
         pArmA = new PanelArmarioAlta(conn);
         add(pArmA);
@@ -50,9 +59,12 @@ public class T12P05_GUI extends javax.swing.JFrame {
         add(pProB);
         
         ocultarPaneles();
+        pPriS.mostrar();
     }
     
     private void ocultarPaneles() {
+        pRegA.setVisible(false);
+        pRegB.setVisible(false);
         pRefA.setVisible(false);
         pRefB.setVisible(false);
         pAulA.setVisible(false);
@@ -61,6 +73,7 @@ public class T12P05_GUI extends javax.swing.JFrame {
         pArmB.setVisible(false);
         pProA.setVisible(false);
         pProB.setVisible(false);
+        pPriS.setVisible(false);
     }
     
     public static void main(String args[]) {
@@ -99,6 +112,7 @@ public class T12P05_GUI extends javax.swing.JFrame {
 
         menu = new javax.swing.JMenuBar();
         menuPrincipal = new javax.swing.JMenu();
+        menuAyudaInstrucciones = new javax.swing.JMenuItem();
         menuPrincipalSalir = new javax.swing.JMenuItem();
         menuAulas = new javax.swing.JMenu();
         menuAulasBuscador = new javax.swing.JMenuItem();
@@ -112,8 +126,6 @@ public class T12P05_GUI extends javax.swing.JFrame {
         menuListado = new javax.swing.JMenu();
         menuListadoReferencias = new javax.swing.JMenuItem();
         menuListadoRegistros = new javax.swing.JMenuItem();
-        menuAyuda = new javax.swing.JMenu();
-        menuAyudaInstrucciones = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(680, 440));
@@ -123,6 +135,14 @@ public class T12P05_GUI extends javax.swing.JFrame {
         getContentPane().setLayout(new java.awt.FlowLayout());
 
         menuPrincipal.setText("Principal");
+
+        menuAyudaInstrucciones.setText("Sobre  ...");
+        menuAyudaInstrucciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPrincipalSobreActionPerformed(evt);
+            }
+        });
+        menuPrincipal.add(menuAyudaInstrucciones);
 
         menuPrincipalSalir.setText("Salir");
         menuPrincipalSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -214,13 +234,6 @@ public class T12P05_GUI extends javax.swing.JFrame {
 
         menu.add(menuListado);
 
-        menuAyuda.setText("Ayuda");
-
-        menuAyudaInstrucciones.setText("Instrucciones");
-        menuAyuda.add(menuAyudaInstrucciones);
-
-        menu.add(menuAyuda);
-
         setJMenuBar(menu);
 
         pack();
@@ -281,13 +294,14 @@ public class T12P05_GUI extends javax.swing.JFrame {
         if (evt.getActionCommand().equals("Referencias")) {
             pRefB.mostrar();
         } else if (evt.getActionCommand().equals("Registros")) {
-            
-            
-            //
-            
-            //
+            pRegB.mostrar();
         }
     }//GEN-LAST:event_menuListadoActionPerformed
+
+    private void menuPrincipalSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrincipalSobreActionPerformed
+        ocultarPaneles();
+        pPriS.mostrar();
+    }//GEN-LAST:event_menuPrincipalSobreActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -298,7 +312,6 @@ public class T12P05_GUI extends javax.swing.JFrame {
     private javax.swing.JMenu menuAulas;
     private javax.swing.JMenuItem menuAulasAlta;
     private javax.swing.JMenuItem menuAulasBuscador;
-    private javax.swing.JMenu menuAyuda;
     private javax.swing.JMenuItem menuAyudaInstrucciones;
     private javax.swing.JMenu menuListado;
     private javax.swing.JMenuItem menuListadoReferencias;

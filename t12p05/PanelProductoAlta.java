@@ -40,6 +40,7 @@ public class PanelProductoAlta extends javax.swing.JPanel {
         txtNombre.setText("");
         txtDescripcion.setText("");
         cboCategoria.setSelectedIndex(0);
+        botReferencia.setText("Crear referencias");
         try {
             txtId.setText(String.valueOf(Producto.generarId(conn)));
         } catch(Exception e) {
@@ -259,21 +260,12 @@ public class PanelProductoAlta extends javax.swing.JPanel {
         if (!edicion) {
             try {
                 producto.altaProducto(conn);
-                JOptionPane.showMessageDialog(this, 
-                        "Alta correcta.",
-                        "ALTA", 
-                        JOptionPane.INFORMATION_MESSAGE);
-                pRefA.mostrar(producto);
+                pRefA.mostrar(producto, ibc);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, 
                         "Error: " +e.getMessage(), 
                         "ERROR AL DAR DE ALTA", 
                         JOptionPane.ERROR_MESSAGE);
-                //
-                //
-                // REFERENCIAS Y REGISTROS AQUI.
-                //
-                //
             }
         } else {
             try {

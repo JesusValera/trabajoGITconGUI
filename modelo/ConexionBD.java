@@ -63,19 +63,13 @@ public class ConexionBD {
             sql = "CREATE TABLE IF NOT EXISTS registros (" +
                 "num_ref VARCHAR(12)," +
                 "id_producto INTEGER," +
-                "nombre VARCHAR(20)," +
                 "fecha_alta DATE," +
                 "fecha_baja DATE," +
                 "causa_baja VARCHAR(100)," +
+                "accion VARCHAR(4)," +
                 "CONSTRAINT reg_idprod_numref_pk PRIMARY KEY(num_ref, id_producto)," +
                 "CONSTRAINT reg_idprod_numref_fk FOREIGN KEY(num_ref) REFERENCES referencias(num_ref) ON DELETE CASCADE);";
             st.executeUpdate(sql);
-            
-//            // armario "sin id" -> productos sin armario.
-//            sql = "INSERT IGNORE INTO aulas VALUES (1, 'Sin Aula', 'Productos que no tienen aula ni armario')";
-//            st.executeUpdate(sql);
-//            sql = "INSERT IGNORE INTO armarios VALUES (1, 1, 'Sin armario', 'Producto sin armario')";
-//            st.executeUpdate(sql);
             
         } catch (SQLException e) {
             throw new Exception("Error al crear las tablas", e);

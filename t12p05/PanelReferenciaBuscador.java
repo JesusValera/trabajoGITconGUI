@@ -6,7 +6,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.ConexionBD;
-import modelo.Producto;
 import modelo.Referencia;
 
 /**
@@ -17,12 +16,14 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
 
     ConexionBD conn;
     PanelReferenciaAlta pRefA;
+    PanelRegistroAlta pRegA;
     DefaultTableModel modelo;
     
-    public PanelReferenciaBuscador(ConexionBD conn, PanelReferenciaAlta pRefA) {
+    public PanelReferenciaBuscador(ConexionBD conn, PanelReferenciaAlta pRefA, PanelRegistroAlta pRegA) {
         initComponents();
         this.conn = conn;
         this.pRefA = pRefA;
+        this.pRegA = pRegA;
         modelo = new DefaultTableModel();
         modelo.setColumnIdentifiers(new String[] { "ID PRODUCTO", "NUMERO REFERENCIA", "BAJA"});
         tabReferencias.setModel(modelo);
@@ -133,16 +134,17 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
         });
 
         botAlta.setText("Alta");
-        botAlta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botAltaActionPerformed(evt);
-            }
-        });
+        botAlta.setEnabled(false);
 
         botEditar.setText("Editar");
         botEditar.setEnabled(false);
 
         botBaja.setText("Baja");
+        botBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botBajaActionPerformed(evt);
+            }
+        });
 
         botBuscar.setText("Buscar");
         botBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -247,10 +249,6 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
         setVisible(false);
     }//GEN-LAST:event_botAcepCancActionPerformed
 
-    private void botAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAltaActionPerformed
-        pRefA.mostrarAltaReferencia();
-    }//GEN-LAST:event_botAltaActionPerformed
-
     private void botBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botBuscarActionPerformed
         // BUSCAR
         List<Referencia> tReferencias = new ArrayList<>();
@@ -274,6 +272,25 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botBuscarActionPerformed
+
+    private void botBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botBajaActionPerformed
+        if (tabReferencias.getSelectedRow() >= 0) {
+            String idProducto = (String) modelo.getValueAt(tabReferencias.getSelectedRow(), 0);
+            String numRef = (String) modelo.getValueAt(tabReferencias.getSelectedRow(), 1);
+            String baja = (String) modelo.getValueAt(tabReferencias.getSelectedRow(), 2);
+            // Referencia
+            Referencia referencia = new Referencia(numRef, Long.parseLong(idProducto), !Boolean.parseBoolean(baja));
+            
+            // Registro
+            pRegA.mostrar(referencia, !Boolean.parseBoolean(baja));
+            try {
+                referencia.updateReferencia(conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        botBuscar.doClick();
+    }//GEN-LAST:event_botBajaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

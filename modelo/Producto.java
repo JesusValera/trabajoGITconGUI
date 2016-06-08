@@ -263,7 +263,7 @@ public class Producto implements Comparable<Producto> {
     
     @Override
     public int compareTo(Producto o) {
-        return this.getNombre().compareToIgnoreCase(o.getNombre());
+        return String.valueOf(this.getId()).compareTo(String.valueOf(o.getId()));
     }
     
 }

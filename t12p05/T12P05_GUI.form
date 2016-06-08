@@ -9,6 +9,14 @@
             <Property name="text" type="java.lang.String" value="Principal"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="menuAyudaInstrucciones">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Sobre  ..."/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuPrincipalSobreActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuPrincipalSalir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir"/>
@@ -108,18 +116,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuListadoActionPerformed"/>
               </Events>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="menuAyuda">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ayuda"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="menuAyudaInstrucciones">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Instrucciones"/>
-              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>

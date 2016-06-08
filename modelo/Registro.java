@@ -5,23 +5,24 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Registro implements Comparable<Registro> {
     
     private String numRef;
     private long idProducto;
-    private String nombre;
     private LocalDate fecAlta;
     private LocalDate fecBaja;
     private String causaBaja;
+    private String accion;
 
     public Registro() {
         numRef = "";
         idProducto = 0L;
-        nombre = "";
         fecAlta = LocalDate.now();
         fecBaja = null;
         causaBaja = "";
+        accion = "ALTA";
     }
 
     public Registro(long idProducto, String numRef) {
@@ -30,20 +31,20 @@ public class Registro implements Comparable<Registro> {
         fecAlta = LocalDate.now();
         fecBaja = null;
         causaBaja = "";
+        accion = "ALTA";
     }
 
     public Registro(String numRef, long idProducto, String nombre, String causaBaja) {
         this.numRef = numRef;
         this.idProducto = idProducto;
-        this.nombre = nombre;
         this.fecAlta = LocalDate.now();
         this.fecBaja = null;
         this.causaBaja = causaBaja;
+        this.accion = "ALTA";
     }
 
     public String getNumRef() { return numRef; }
     public long getIdProducto() { return idProducto; }
-    public String getNombre() { return nombre; }
     public String getCausaBaja() { return causaBaja; }
     public String getFecAlta() {
         if (fecAlta != null) {
@@ -57,10 +58,16 @@ public class Registro implements Comparable<Registro> {
         }
         return "";
     }
+    public String getFecBajaIng() {
+        if (fecBaja != null) {
+            return fecBaja.format(DateTimeFormatter.ofPattern("uuuu-MM-dd"));
+        }
+        return "";
+    }
+    public String getAccion() { return accion; }
     
     public void setNumRef(String numRef) { this.numRef = numRef; }
     public void setIdProducto(long idProducto) { this.idProducto = idProducto; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
     public void setCausaBaja(String causaBaja) { this.causaBaja = causaBaja; }
     public void setFecAlta(LocalDate fecAlta) { this.fecAlta = fecAlta; }
     public void setFecAlta(String fecAlta) {
@@ -79,6 +86,7 @@ public class Registro implements Comparable<Registro> {
                                     Integer.parseInt(fecBaja.substring(3, 5)),
                                     Integer.parseInt(fecBaja.substring(0, 2)));
     }
+    public void setAccion(String accion) { this.accion = accion; }
 
     // METODOS
     public static boolean existeRegistro(ConexionBD conn, String numRef) throws Exception {
@@ -100,10 +108,10 @@ public class Registro implements Comparable<Registro> {
             String sql = "INSERT INTO registros VALUES('" +
                     this.numRef +"', " +
                     this.idProducto + ", '" +
-                    this.nombre +"', '" +
                     Date.valueOf(fecAlta) +"', "+
-                    ((fecBaja==null)?null:"'" +getFecBaja() +"'") +", '" +
-                    this.causaBaja + "')";
+                    ((fecBaja==null)?null:"'" +getFecBajaIng() +"'") +", '" +
+                    this.causaBaja +"', '" + 
+                    this.accion +"')";
             
             conn.getSt().executeUpdate(sql);
             
@@ -128,15 +136,39 @@ public class Registro implements Comparable<Registro> {
         }
     }
     
+    public static void buscarRegistro(ConexionBD conn, List<Registro> tRegistros) throws Exception {
+        try {
+            String sql = "SELECT * FROM registros";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            while(rs.next()) {
+                Registro registro = new Registro();
+                registro.setNumRef(rs.getString("num_ref"));
+                registro.setIdProducto(rs.getLong("id_producto"));
+                Date fecAl = rs.getDate("fecha_alta");
+                registro.setFecAlta(((fecAl==null)?null:fecAl.toLocalDate()));
+                Date fecBa = rs.getDate("fecha_baja");
+                registro.setFecBaja((fecBa==null)?null:fecBa.toLocalDate());
+                registro.setCausaBaja(rs.getString("causa_baja"));
+                registro.setAccion(rs.getString("accion"));
+                tRegistros.add(registro);
+            }
+            
+        } catch (Exception e) {
+            throw new Exception("Error buscarRegistro\n", e);
+        }
+        
+    }
+    
     @Override
     public int compareTo(Registro o) {
-        if (fecAlta.isBefore(o.fecAlta)) {
-            return 1;
-        } else if (fecAlta.isAfter(fecAlta)) {
-            return -1;
-        } else {
-            return 0;
-        }
+        return String.valueOf(this.getIdProducto()).compareTo(String.valueOf(o.getIdProducto()));
+//        if (fecAlta.isBefore(o.fecAlta)) {
+//            return 1;
+//        } else if (fecAlta.isAfter(fecAlta)) {
+//            return -1;
+//        } else {
+//            return 0;
+//        }
     }
     
     public static LinkedList<Registro> listarRegistro(ConexionBD conn) throws Exception {
@@ -148,7 +180,6 @@ public class Registro implements Comparable<Registro> {
                 Registro registro = new Registro();
                 registro.setNumRef(rs.getString("num_ref"));
                 registro.setIdProducto(rs.getLong("id_producto"));
-                registro.setNombre(rs.getString("nombre"));
                 Date fecAl = rs.getDate("fecha_alta");
                 registro.setFecAlta(((fecAl==null)?null:fecAl.toLocalDate()));
                 Date fecBa = rs.getDate("fecha_baja");
@@ -166,7 +197,7 @@ public class Registro implements Comparable<Registro> {
 
     public String datosIterador() {
         return ("NUMREF: " +this.getNumRef() +". ID: " +this.getIdProducto() 
-                +".\tNOMBRE: " +this.getNombre() +". FECHA_ALTA: " +this.getFecAlta()
+                +".\t FECHA_ALTA: " +this.getFecAlta()
                 +". FECHA_BAJA: " +this.getFecBaja() +"\t\t. CAUSA: " +this.getCausaBaja());
     }
     

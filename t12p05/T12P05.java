@@ -202,7 +202,7 @@ public class T12P05 {
                             Registro registro5 = new Registro();
 //                            registro5.setIdProducto(idProducto5);
                             registro5.setNumRef(numeroRef);
-                            registro5.setNombre(nombre5);
+//                            registro5.setNombre(nombre5);
                             registro5.altaRegistro(conn);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -238,10 +238,10 @@ public class T12P05 {
                     String numRef6 = sc.next();
                     // Comprobar que existe algUn producto con ID y referencia seleccionados
                     try {
-                        if (!Referencia.existeReferencia(numRef6, conn)) {
-                            System.out.println("No existe producto con numero de referencia seleccionado.");
-                            break;
-                        }
+//                        if (!Referencia.existeReferencia(numRef6, conn)) {
+//                            System.out.println("No existe producto con numero de referencia seleccionado.");
+//                            break;
+//                        }
                     } catch (Exception e) {
                         System.out.println("Error getProducto. ¿NO EXISTE?");
                     }
@@ -357,17 +357,17 @@ public class T12P05 {
                                 
                                 tArm.settProductos(Producto.listarProductos(tArm.getId(), conn));
                                 for (Producto tProd : tArm.gettProductos().values()) {
-                                    System.out.println("\t\tID_PRODUCTO: " + tProd.getId() + ". NOMBRE: " + tProd.getNombre()
-                                            + ". CATEGORIA: " + tProd.getCategoria() + ". DESCRIPCION: " + tProd.getDescripcion());
+                                    System.out.println("\t\tID_PRODUCTO: " + tProd.getId() + ". NOMBRE: " +tProd.getNombre()
+                                            + ". CATEGORIA: " + tProd.getCategoria() + ". DESCRIPCION: " +tProd.getDescripcion());
                                     
                                     
                                     for (Referencia tRef : tProd.gettReferencias()) {
-                                        System.out.println("\t\t\tNUMREF: " + tRef.getNumRef() + ". BAJA: " + tRef.isBaja());
+                                        System.out.println("\t\t\tNUMREF: " +tRef.getNumRef() + ". BAJA: " +tRef.isBaja());
                                         
                                         tRef.settRegistro(Referencia.listarRegistro(tRef.getNumRef(), conn));
                                         for (Registro tReg : tRef.gettRegistro()) {
-                                            System.out.println("\t\t\t\tREGISTRO_NOMBRE: " + tReg.getNombre() + ". FECHA_ALTA: " + tReg.getFecAlta()
-                                                    + ". FECHA_BAJA: " + tReg.getFecBaja() + ". CAUSA_BAJA: " + tReg.getCausaBaja());
+                                            System.out.println("\t\t\t\tFECHA_ALTA: " +tReg.getFecAlta()
+                                                    + ". FECHA_BAJA: " + tReg.getFecBaja() +". CAUSA_BAJA: " + tReg.getCausaBaja());
                                         }
                                     }
                                 }

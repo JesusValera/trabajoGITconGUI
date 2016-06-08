@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import modelo.ConexionBD;
 import modelo.Producto;
 import modelo.Referencia;
+import modelo.Registro;
 
 /**
  *
@@ -15,29 +16,20 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
 
     ConexionBD conn;
     Producto producto;
-    boolean altaReferencia;
+    IBusCallBack ibc;
     
     public PanelReferenciaAlta(ConexionBD conn) {
         initComponents();
         this.conn = conn;
     }
     
-    public void mostrar(Producto producto) {
+    public void mostrar(Producto producto, IBusCallBack ibc) {
         this.setVisible(true);
-        altaReferencia = false;
+        this.ibc = ibc;
         this.producto = producto;
         txtIdProducto.setEditable(false);
         txtIdProducto.setBackground(new java.awt.Color(200,230,250));
         txtIdProducto.setText(String.valueOf(producto.getId()));
-        txtNumReferencia.setText("");
-    }
-    
-    void mostrarAltaReferencia() {
-        this.setVisible(true);
-        this.producto = new Producto();
-        altaReferencia = true;
-        txtIdProducto.setEditable(true);
-        txtIdProducto.setBackground(new java.awt.Color(222,222,222));
         txtNumReferencia.setText("");
     }
     
@@ -58,7 +50,6 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
         botAceptar = new javax.swing.JButton();
         botCancelar = new javax.swing.JButton();
         txtNumReferenciaBloqueado = new javax.swing.JTextField();
-        txtNombreProductoBloqueado = new javax.swing.JTextField();
 
         setMaximumSize(new java.awt.Dimension(620, 420));
         setMinimumSize(new java.awt.Dimension(620, 420));
@@ -73,11 +64,6 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
 
         txtIdProducto.setEditable(false);
         txtIdProducto.setBackground(new java.awt.Color(200, 230, 250));
-        txtIdProducto.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtIdProductoFocusLost(evt);
-            }
-        });
 
         txtNumReferencia.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -102,9 +88,6 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
         txtNumReferenciaBloqueado.setEditable(false);
         txtNumReferenciaBloqueado.setBackground(java.awt.Color.gray);
 
-        txtNombreProductoBloqueado.setEditable(false);
-        txtNombreProductoBloqueado.setBackground(java.awt.Color.gray);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,13 +101,12 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
                             .addComponent(labNumReferencia)
                             .addComponent(labIdProducto))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNumReferencia, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(txtIdProducto))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNumReferenciaBloqueado)
-                            .addComponent(txtNombreProductoBloqueado)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtNumReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNumReferenciaBloqueado))
+                            .addComponent(txtIdProducto)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(botCancelar)
@@ -139,14 +121,13 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
                 .addComponent(labCabecera)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labIdProducto)
+                    .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labNumReferencia)
                     .addComponent(txtNumReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNumReferenciaBloqueado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labIdProducto)
-                    .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombreProductoBloqueado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 257, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botAceptar)
@@ -158,29 +139,27 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
     private void botAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAceptarActionPerformed
         if (!txtNumReferencia.getText().equals("")) {
             try {
+                // ALTA REFERENCIA
                 Referencia referencia = new Referencia();
                 referencia.setIdProducto(producto.getId());
                 referencia.setNumRef(txtNumReferencia.getText());
+                referencia.altaReferencia(conn);
                 
-                if (!altaReferencia) {
-                    referencia.altaReferencia(conn);
-                    int op = JOptionPane.showConfirmDialog(this,
-                        "Referencia creada correctamente.\n¿Añadir nueva referencia?", 
-                        "ALTA", 
-                        JOptionPane.YES_NO_OPTION);
-                    switch(op) {
-                        case JOptionPane.YES_OPTION:
-                            this.mostrar(producto);
-                            break;
-                        case JOptionPane.NO_OPTION:
-                            this.setVisible(false);
-                    }
-                } else {
-                    referencia.altaReferencia(conn);
-                    JOptionPane.showConfirmDialog(this,
-                        "Referencia creada correctamente.", 
-                        "ALTA", 
-                        JOptionPane.OK_OPTION);
+                // ALTA REGISTRO
+                Registro registro = new Registro();
+                registro.setIdProducto(producto.getId());
+                registro.setNumRef(txtNumReferencia.getText());
+                registro.altaRegistro(conn);
+                int op = JOptionPane.showConfirmDialog(this,
+                    "Referencia creada correctamente.\n¿Añadir nueva referencia?", 
+                    "ALTA", 
+                    JOptionPane.YES_NO_OPTION);
+                switch(op) {
+                    case JOptionPane.YES_OPTION:
+                        this.mostrar(producto, null);
+                        break;
+                    case JOptionPane.NO_OPTION:
+                        this.setVisible(false);
                 }
             } catch (Exception e) {
                 //e.printStackTrace();
@@ -201,37 +180,35 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
         // Comprobar si existe alguna referencia con ID Producto.
         // -- SI: setVisible(false).
         // -- NO: eliminar producto. (mostrar JOptionPane -> Es necesario crear al menos una referencia.
-        if (!altaReferencia) {
-            try {
-                List<String> referenciasExistentesConIdProd = Referencia.getReferenciasCreadas(producto.getId(), conn);
-                if (referenciasExistentesConIdProd.isEmpty()) {
-                    Producto.bajaProducto(producto.getId(), conn);
-                    JOptionPane.showMessageDialog(this, 
-                            "Es necesario añadir referencias a un producto.\nProducto no creado.", 
-                            "CANCELAR", 
-                            JOptionPane.WARNING_MESSAGE);
-                    this.setVisible(false);
-                } else {
-                    int op = JOptionPane.showConfirmDialog(this,
-                        "¿Seguro que desea cancelar?", 
+        try {
+            List<String> referenciasExistentesConIdProd = Referencia.getReferenciasCreadas(producto.getId(), conn);
+            if (referenciasExistentesConIdProd.isEmpty()) {
+                Producto.bajaProducto(producto.getId(), conn);
+                JOptionPane.showMessageDialog(this, 
+                        "Es necesario añadir referencias a un producto.\nProducto no creado.", 
                         "CANCELAR", 
-                        JOptionPane.INFORMATION_MESSAGE);
-                    switch(op) {
-                        case JOptionPane.NO_OPTION:
-                            this.mostrar(producto);
-                            break;
-                        case JOptionPane.YES_OPTION:
-                            this.setVisible(false);
-                            break;
-                    }
+                        JOptionPane.WARNING_MESSAGE);
+                this.setVisible(false);
+            } else {
+                int op = JOptionPane.showConfirmDialog(this,
+                    "¿Seguro que desea cancelar?", 
+                    "CANCELAR", 
+                    JOptionPane.YES_NO_OPTION);
+                switch(op) {
+                    case JOptionPane.NO_OPTION:
+                        this.mostrar(producto, null);
+                        break;
+                    case JOptionPane.YES_OPTION:
+                        // Eliminar referencias del producto creado
+                        this.setVisible(false);
+                        break;
                 }
-            } catch (Exception e) {
-                //e.printStackTrace();
-                ;
             }
-        } else {
-            this.setVisible(false);
+        } catch (Exception e) {
+            //e.printStackTrace();
+            ;
         }
+        if (ibc != null) { ibc.callBack(); }
     }//GEN-LAST:event_botCancelarActionPerformed
 
     private void txtNumReferenciaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumReferenciaFocusLost
@@ -241,8 +218,9 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
             txtNumReferenciaBloqueado.setText("");
         } else {
             try {
-                Referencia referencia = new Referencia(txtNumReferencia.getText());
-                referencia.recuperarReferencia(conn);
+                if (!Referencia.existeReferencia(txtNumReferencia.getText(), Long.parseLong(txtIdProducto.getText()), conn)) {
+                    throw new Exception();
+                }
                 txtNumReferenciaBloqueado.setBackground(Color.red);
                 txtNumReferenciaBloqueado.setText("REFERENCIA EN USO.");
             } catch (Exception e) {
@@ -253,25 +231,6 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtNumReferenciaFocusLost
 
-    private void txtIdProductoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdProductoFocusLost
-        // PINTAR CUADRO TEXTO DERECHA.
-        if (txtNumReferencia.getText().equals("")) {
-            txtNombreProductoBloqueado.setBackground(Color.GRAY);
-            txtNombreProductoBloqueado.setText("");
-        } else {
-            try {
-                this.producto.setId(Long.parseLong(txtIdProducto.getText()));
-                producto.recuperarProducto(conn);
-                txtNombreProductoBloqueado.setText(producto.getNombre());
-                txtNombreProductoBloqueado.setBackground(new java.awt.Color(130, 250, 130));
-            } catch (Exception e) {
-                //e.printStackTrace();
-                txtNombreProductoBloqueado.setBackground(Color.red);
-                txtNombreProductoBloqueado.setText("PRODUCTO NO EXISTE.");
-            }
-        }
-    }//GEN-LAST:event_txtIdProductoFocusLost
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botAceptar;
@@ -280,7 +239,6 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
     private javax.swing.JLabel labIdProducto;
     private javax.swing.JLabel labNumReferencia;
     private javax.swing.JTextField txtIdProducto;
-    private javax.swing.JTextField txtNombreProductoBloqueado;
     private javax.swing.JTextField txtNumReferencia;
     private javax.swing.JTextField txtNumReferenciaBloqueado;
     // End of variables declaration//GEN-END:variables

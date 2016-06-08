@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
-  <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="bGruBaja">
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[620, 420]"/>
@@ -28,57 +24,44 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <Component id="botAlta" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="botEditar" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="botBaja" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="botCancelar" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="botAceptar" min="-2" max="-2" attributes="0"/>
+          </Group>
+          <Component id="jScrollPane1" max="32767" attributes="0"/>
+          <Component id="labCabecera" alignment="1" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="labNumReferencia" alignment="0" min="-2" pref="129" max="-2" attributes="0"/>
+                  <Component id="labIdProducto" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="labFechaAlta" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="txtFechaAlta" min="-2" pref="151" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labFechaBaja" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtFechaBaja" pref="165" max="32767" attributes="0"/>
+                  </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labIdProducto" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="labNumReferencia" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="labBaja" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtIdProducto" max="32767" attributes="0"/>
+                          <Component id="txtNumReferencia" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="rboTodos" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="rboSi" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="rboNo" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txtNumReferencia" pref="394" max="32767" attributes="0"/>
-                                  <Component id="txtIdProducto" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="botLimpiar" min="-2" max="-2" attributes="0"/>
-                                  <Component id="botBuscar" alignment="1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
-                  <Group type="102" attributes="0">
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" pref="596" max="32767" attributes="0"/>
-                          <Component id="labCabecera" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="botAlta" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="botEditar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="botBaja" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="botCancelar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="botAceptar" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="botLimpiar" min="-2" max="-2" attributes="0"/>
+                          <Component id="botBuscar" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -91,32 +74,32 @@
               <Component id="labCabecera" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="botBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="labIdProducto" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtIdProducto" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="botBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="botLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="labNumReferencia" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtNumReferencia" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="botLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="labBaja" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="rboTodos" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="rboSi" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="rboNo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labFechaAlta" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labFechaBaja" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFechaAlta" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFechaBaja" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="199" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="194" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="botAceptar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="botCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="botAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="botEditar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="botBaja" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="botCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -130,12 +113,7 @@
           <Font name="Ubuntu" size="24" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="BUSCADOR REFERENCIAS"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="labIdProducto">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="ID Producto:"/>
+        <Property name="text" type="java.lang.String" value="BUSCADOR REGISTRO"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labNumReferencia">
@@ -143,38 +121,54 @@
         <Property name="text" type="java.lang.String" value="Num. referencia:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtIdProducto">
+    <Component class="javax.swing.JLabel" name="labIdProducto">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="ID producto:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labFechaAlta">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="DESDE (fecha alta):"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labFechaBaja">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="HASTA (fecha baja):"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="txtFechaAlta">
+      <Properties>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="txtFechaBaja">
+      <Properties>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="botBuscar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Buscar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botBuscarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="botLimpiar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Limpiar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botLimpiarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNumReferencia">
     </Component>
-    <Component class="javax.swing.JLabel" name="labBaja">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Baja:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="rboTodos">
-      <Properties>
-        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-          <ComponentRef name="bGruBaja"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Todos"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="rboSi">
-      <Properties>
-        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-          <ComponentRef name="bGruBaja"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Si"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="rboNo">
-      <Properties>
-        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-          <ComponentRef name="bGruBaja"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="No"/>
-      </Properties>
+    <Component class="javax.swing.JTextField" name="txtIdProducto">
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -183,7 +177,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tabReferencias">
+        <Component class="javax.swing.JTable" name="tabRegistros">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="4">
@@ -207,17 +201,11 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Aceptar"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botAcepCancActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="botCancelar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botAcepCancActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="botAlta">
       <Properties>
@@ -234,26 +222,8 @@
     <Component class="javax.swing.JButton" name="botBaja">
       <Properties>
         <Property name="text" type="java.lang.String" value="Baja"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botBajaActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="botBuscar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Buscar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botBuscarActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="botLimpiar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Limpiar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botLimpiarActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

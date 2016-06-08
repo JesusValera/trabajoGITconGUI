@@ -214,42 +214,49 @@ public class PanelArmarioAlta extends javax.swing.JPanel {
     }//GEN-LAST:event_txtIdAulaFocusLost
 
     private void botAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAceptarActionPerformed
-        Armario armario = new Armario();
-        armario.setId(Integer.parseInt(txtId.getText()));
-        armario.setIdAula(Integer.parseInt(txtIdAula.getText()));
-        armario.setNombre(txtNombre.getText());
-        armario.setDescripcion(txtDescripcion.getText());
-        if (!edicion) {
-            try {
-                armario.altaArmario(conn);
-                JOptionPane.showMessageDialog(this, 
-                        "Alta correcta.",
-                        "ALTA", 
-                        JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, 
-                        "Error: " +e.getMessage(), 
-                        "ERROR AL DAR DE ALTA", 
-                        JOptionPane.ERROR_MESSAGE);
+        if (!txtIdAula.getText().equals("")) {
+            Armario armario = new Armario();
+            armario.setId(Integer.parseInt(txtId.getText()));
+            armario.setIdAula(Integer.parseInt(txtIdAula.getText()));
+            armario.setNombre(txtNombre.getText());
+            armario.setDescripcion(txtDescripcion.getText());
+            if (!edicion) {
+                try {
+                    armario.altaArmario(conn);
+                    JOptionPane.showMessageDialog(this, 
+                            "Alta correcta.",
+                            "ALTA", 
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, 
+                            "Error: " +e.getMessage(), 
+                            "ERROR AL DAR DE ALTA", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                try {
+                    armario.updateArmario(conn);
+                    JOptionPane.showMessageDialog(this, 
+                            "Actualizacion correcta.",
+                            "ACTUALIZAR", 
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, 
+                            "Error: " +e.getMessage(), 
+                            "ERROR AL ACTUALIZAR", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
+
+            if (ibc != null) { ibc.callBack(); }
+            this.setVisible(false);
         } else {
-            try {
-                armario.updateArmario(conn);
-                JOptionPane.showMessageDialog(this, 
-                        "Actualizacion correcta.",
-                        "ACTUALIZAR", 
-                        JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, 
-                        "Error: " +e.getMessage(), 
-                        "ERROR AL ACTUALIZAR", 
-                        JOptionPane.ERROR_MESSAGE);
-            }
+            JOptionPane.showMessageDialog(this, 
+                            "ID Aula no puede estar vacío.", 
+                            "ERROR", 
+                            JOptionPane.OK_OPTION);
         }
-        
-        if (ibc != null) { ibc.callBack(); }
-        this.setVisible(false);
     }//GEN-LAST:event_botAceptarActionPerformed
 
 
