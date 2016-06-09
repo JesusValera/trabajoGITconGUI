@@ -29,7 +29,8 @@ public class PanelAulaAlta extends javax.swing.JPanel {
         try {
             txtId.setText(String.valueOf(Aula.generarId(conn)));
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            ;
         }
     }
     
@@ -42,7 +43,8 @@ public class PanelAulaAlta extends javax.swing.JPanel {
             txtNombre.setText(aula.getNombre());
             txtDescripcion.setText(aula.getDescripcion());
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            ;
         }
     }
     
@@ -178,7 +180,7 @@ public class PanelAulaAlta extends javax.swing.JPanel {
                         "ACTUALIZAR", 
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 JOptionPane.showMessageDialog(this, 
                         "Error: " +e.getMessage(), 
                         "ERROR AL ACTUALIZAR", 

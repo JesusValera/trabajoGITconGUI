@@ -109,6 +109,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNumReferencia">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="dc" green="d2" red="fa" type="rgb"/>
+        </Property>
+      </Properties>
       <Events>
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtNumReferenciaFocusLost"/>
       </Events>

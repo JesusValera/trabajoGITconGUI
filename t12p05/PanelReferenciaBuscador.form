@@ -67,11 +67,9 @@
                           <Component id="jScrollPane1" pref="596" max="32767" attributes="0"/>
                           <Component id="labCabecera" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="botAlta" min="-2" max="-2" attributes="0"/>
+                              <Component id="botBaja" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="botEditar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="botBaja" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="botCancelar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -113,7 +111,6 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="botAceptar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="botAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="botEditar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="botBaja" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="botCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -219,12 +216,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botAcepCancActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="botAlta">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Alta"/>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="botEditar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar"/>
@@ -233,7 +224,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="botBaja">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Baja"/>
+        <Property name="text" type="java.lang.String" value="Baja/Alta"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botBajaActionPerformed"/>

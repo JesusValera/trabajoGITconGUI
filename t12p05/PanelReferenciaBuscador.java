@@ -12,7 +12,7 @@ import modelo.Referencia;
  *
  * @author jesus
  */
-public class PanelReferenciaBuscador extends javax.swing.JPanel {
+public class PanelReferenciaBuscador extends javax.swing.JPanel implements IBusCallBack{
 
     ConexionBD conn;
     PanelReferenciaAlta pRefA;
@@ -39,6 +39,13 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
         rboNo.setSelected(false);
     }
     
+    /**
+     * Por defecto hay 3 opciones.
+     *  1 - TODOS = ""
+     *  2 - SI = "1"
+     *  3 - NO = "0"
+     * @return radioButton seleccionado.
+     */
     private String baja() {
         String cat = "";
         
@@ -50,6 +57,11 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
         }
         
         return cat;
+    }
+    
+    @Override
+    public void callBack() {
+        botBuscar.doClick();
     }
     
     /**
@@ -75,7 +87,6 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
         tabReferencias = new javax.swing.JTable();
         botAceptar = new javax.swing.JButton();
         botCancelar = new javax.swing.JButton();
-        botAlta = new javax.swing.JButton();
         botEditar = new javax.swing.JButton();
         botBaja = new javax.swing.JButton();
         botBuscar = new javax.swing.JButton();
@@ -133,13 +144,10 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
             }
         });
 
-        botAlta.setText("Alta");
-        botAlta.setEnabled(false);
-
         botEditar.setText("Editar");
         botEditar.setEnabled(false);
 
-        botBaja.setText("Baja");
+        botBaja.setText("Baja/Alta");
         botBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botBajaActionPerformed(evt);
@@ -196,11 +204,9 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
                             .addComponent(labCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(botAlta)
+                                .addComponent(botBaja)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(botEditar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(botBaja)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(botCancelar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -233,7 +239,6 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botAceptar)
-                    .addComponent(botAlta)
                     .addComponent(botEditar)
                     .addComponent(botBaja)
                     .addComponent(botCancelar))
@@ -242,7 +247,7 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botLimpiarActionPerformed
-        modelo.setRowCount(0);
+        mostrar();
     }//GEN-LAST:event_botLimpiarActionPerformed
 
     private void botAcepCancActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAcepCancActionPerformed
@@ -261,7 +266,7 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
                 modelo.addRow(new String[] {
                     String.valueOf(t.getIdProducto()),
                     t.getNumRef(),
-                    String.valueOf(t.isBaja())
+                    (t.isBaja()?"SI":"NO")
                     });
             }
         } catch (Exception e) {
@@ -281,22 +286,18 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
             // Referencia
             Referencia referencia = new Referencia(numRef, Long.parseLong(idProducto), !Boolean.parseBoolean(baja));
             
-            // Registro
-            pRegA.mostrar(referencia, !Boolean.parseBoolean(baja));
             try {
-                referencia.updateReferencia(conn);
+                pRegA.mostrar(referencia, !Boolean.parseBoolean(baja), this);
             } catch (Exception e) {
-                e.printStackTrace();
+                ;
             }
         }
-        botBuscar.doClick();
     }//GEN-LAST:event_botBajaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bGruBaja;
     private javax.swing.JButton botAceptar;
-    private javax.swing.JButton botAlta;
     private javax.swing.JButton botBaja;
     private javax.swing.JButton botBuscar;
     private javax.swing.JButton botCancelar;
@@ -314,4 +315,5 @@ public class PanelReferenciaBuscador extends javax.swing.JPanel {
     private javax.swing.JTextField txtIdProducto;
     private javax.swing.JTextField txtNumReferencia;
     // End of variables declaration//GEN-END:variables
+
 }

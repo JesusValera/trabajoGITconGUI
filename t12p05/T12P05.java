@@ -60,9 +60,9 @@ public class T12P05 {
                             descripcionAula = sc.next();
                         } while (descripcionAula.isEmpty());
 
-                        Aula aula = new Aula(nombreAula, descripcionAula);
+                        //Aula aula = new Aula(nombreAula, descripcionAula);
                         //int aulaID = 
-                                aula.altaAula(conn);
+                                //aula.altaAula(conn);
 
                         System.out.println("Aula correcta. ID: ");// + aulaID);
 
@@ -175,11 +175,11 @@ public class T12P05 {
                     System.out.print("Descripcion producto: ");
                     String descripcion5 = sc.next();
 
-                    Producto producto5 = new Producto(IDArmario5, nombre5, categoria5, descripcion5);
+                    //Producto producto5 = new Producto(IDArmario5, nombre5, categoria5, descripcion5);
                     int idProducto5;
                     try {
                         //idProducto5 = 
-                                producto5.altaProducto(conn);
+                                //producto5.altaProducto(conn);
                     } catch (Exception e) {
                         System.out.println("¡Producto ya existe!");
                         break;

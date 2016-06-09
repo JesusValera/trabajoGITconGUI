@@ -44,8 +44,7 @@ public class PanelProductoAlta extends javax.swing.JPanel {
         try {
             txtId.setText(String.valueOf(Producto.generarId(conn)));
         } catch(Exception e) {
-            e.printStackTrace();
-            //JOptionPane.
+            //e.printStackTrace();
         }
     }
     
@@ -72,11 +71,13 @@ public class PanelProductoAlta extends javax.swing.JPanel {
                     armario.recuperarArmario(conn);
                     txtIdArmarioBloqueado.setText(armario.getNombre());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
+                    ;
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            ;
         }
     }
     
@@ -275,7 +276,7 @@ public class PanelProductoAlta extends javax.swing.JPanel {
                         "ACTUALIZAR", 
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 JOptionPane.showMessageDialog(this, 
                         "Error: " +e.getMessage(), 
                         "ERROR AL ACTUALIZAR", 

@@ -21,12 +21,57 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
         initComponents();
         this.conn = conn;
         modelo = new DefaultTableModel();
-        modelo.setColumnIdentifiers(new String[] {"ID PRODUCTO", "NUM REFERENCIA", "FECHA ALTA", "FECHA BAJA", "CAUSA BAJA", "ACCION" });
+        modelo.setColumnIdentifiers(new String[] {"NUM REFERENCIA", "ID PRODUCTO", "FECHA ALTA", "FECHA BAJA", "CAUSA BAJA", "ACCION" });
         tabRegistros.setModel(modelo);
     }
 
     void mostrar() {
         this.setVisible(true);
+        modelo.setRowCount(0);
+        txtFechaAlta1.setText("");
+        txtFechaAlta2.setText("");
+        txtFechaBaja1.setText("");
+        txtFechaBaja2.setText("");
+        txtIdProducto.setText("");
+        txtNumReferencia.setText("");
+    }
+    
+    /**
+     * 
+     * Por defecto busca en FechaAlta -> DESDE fecAlta con fecha mas antigua HASTA ahora.
+     * Por defecto busca en FechaBaja -> DESDE ahora HASTA fecBaja con fecha mas lejana.
+     * 
+     * @return String[] con valores, en caso de escribir otra fecha, sustituye esa 
+     * fecha por el campo por defecto.
+     * @throws Exception 
+     */
+    private String[] fechaBuscador() throws Exception {
+        try {
+            String[] fechas = {"", "CURDATE()", "CURDATE()", ""};
+        
+            if (!txtFechaAlta1.getText().equals("")) {
+                fechas[0] = "'" +Registro.TransformarFechaBBDD(txtFechaAlta1.getText()) +"'";
+            } else {
+                fechas[0] = "'" +Registro.obtenerFechaMenor(conn) +"'";
+            }
+            if (!txtFechaAlta2.getText().equals("")) {
+                fechas[1] = "'" +Registro.TransformarFechaBBDD(txtFechaAlta2.getText()) +"'";
+            }
+            
+            if (!txtFechaBaja1.getText().equals("")) {
+                fechas[2] = "'" +Registro.TransformarFechaBBDD(txtFechaBaja1.getText()) +"'";
+            }
+            if (!txtFechaBaja2.getText().equals("")) {
+                fechas[3] = "'" +Registro.TransformarFechaBBDD(txtFechaBaja2.getText()) +"'";
+            } else {
+                fechas[3] = "'" +Registro.obtenerFechaMayor(conn) +"'";
+            }
+        
+            return fechas;
+            
+        } catch (Exception e) {
+            throw new Exception("Error fechaBuscador()", e);
+        }
     }
     
     /**
@@ -43,8 +88,8 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
         labIdProducto = new javax.swing.JLabel();
         labFechaAlta = new javax.swing.JLabel();
         labFechaBaja = new javax.swing.JLabel();
-        txtFechaAlta = new javax.swing.JFormattedTextField();
-        txtFechaBaja = new javax.swing.JFormattedTextField();
+        txtFechaAlta1 = new javax.swing.JFormattedTextField();
+        txtFechaAlta2 = new javax.swing.JFormattedTextField();
         botBuscar = new javax.swing.JButton();
         botLimpiar = new javax.swing.JButton();
         txtNumReferencia = new javax.swing.JTextField();
@@ -56,6 +101,10 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
         botAlta = new javax.swing.JButton();
         botEditar = new javax.swing.JButton();
         botBaja = new javax.swing.JButton();
+        labFechaAlta1 = new javax.swing.JLabel();
+        labFechaBaja1 = new javax.swing.JLabel();
+        txtFechaBaja1 = new javax.swing.JFormattedTextField();
+        txtFechaBaja2 = new javax.swing.JFormattedTextField();
 
         setMaximumSize(new java.awt.Dimension(620, 420));
         setMinimumSize(new java.awt.Dimension(620, 420));
@@ -68,13 +117,13 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
 
         labIdProducto.setText("ID producto:");
 
-        labFechaAlta.setText("DESDE (fecha alta):");
+        labFechaAlta.setText("(fecha alta) DESDE:");
 
-        labFechaBaja.setText("HASTA (fecha baja):");
+        labFechaBaja.setText("HASTA:");
 
-        txtFechaAlta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        txtFechaAlta1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
-        txtFechaBaja.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        txtFechaAlta2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         botBuscar.setText("Buscar");
         botBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -107,8 +156,18 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tabRegistros);
 
         botAceptar.setText("Aceptar");
+        botAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAcepCancActionPerformed(evt);
+            }
+        });
 
         botCancelar.setText("Cancelar");
+        botCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botAcepCancActionPerformed(evt);
+            }
+        });
 
         botAlta.setText("Alta");
         botAlta.setEnabled(false);
@@ -118,6 +177,14 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
 
         botBaja.setText("Baja");
         botBaja.setEnabled(false);
+
+        labFechaAlta1.setText("(fecha baja) DESDE:");
+
+        labFechaBaja1.setText("HASTA:");
+
+        txtFechaBaja1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+
+        txtFechaBaja2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -133,29 +200,44 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
                 .addComponent(botCancelar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botAceptar))
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
             .addComponent(labCabecera, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labNumReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labIdProducto)
-                    .addComponent(labFechaAlta))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(labFechaAlta1, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(labFechaAlta)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labIdProducto)
+                            .addComponent(labNumReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labFechaBaja)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFechaBaja, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIdProducto)
-                            .addComponent(txtNumReferencia))
+                            .addComponent(txtNumReferencia)
+                            .addComponent(txtIdProducto))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(botLimpiar)
-                            .addComponent(botBuscar, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                            .addComponent(botBuscar, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtFechaBaja1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labFechaBaja1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtFechaAlta1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labFechaBaja)))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtFechaAlta2)
+                            .addComponent(txtFechaBaja2)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,10 +258,16 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labFechaAlta)
                     .addComponent(labFechaBaja)
-                    .addComponent(txtFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFechaBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFechaAlta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFechaAlta2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labFechaAlta1)
+                    .addComponent(labFechaBaja1)
+                    .addComponent(txtFechaBaja1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFechaBaja2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botAceptar)
@@ -195,9 +283,11 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
         // BUSCAR
         List<Registro> tRegistros = new ArrayList<>();
         try {
-            Registro.buscarRegistro(conn, tRegistros); // pasarle campos txt por parametro
-            modelo.setRowCount(0);
+            String[] fechitas = fechaBuscador();
+            Registro.buscarRegistro(conn, tRegistros, String.valueOf(txtIdProducto.getText()), 
+                        txtNumReferencia.getText(), fechitas[0],fechitas[1],fechitas[2],fechitas[3]);
             
+            modelo.setRowCount(0);
             Collections.sort(tRegistros);
             for (Registro t : tRegistros) {
                 modelo.addRow(new String[] { 
@@ -212,15 +302,19 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
         } catch (Exception e) {
             //e.printStackTrace();
             JOptionPane.showConfirmDialog(this, 
-                    "Error cargar datos.", 
+                    "Error cargar datos." +e.getMessage(), 
                     "ERROR", 
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botBuscarActionPerformed
 
     private void botLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botLimpiarActionPerformed
-        modelo.setRowCount(0);
+        mostrar();
     }//GEN-LAST:event_botLimpiarActionPerformed
+
+    private void botAcepCancActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAcepCancActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_botAcepCancActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botAceptar;
@@ -233,12 +327,16 @@ public class PanelRegistroBuscador extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labCabecera;
     private javax.swing.JLabel labFechaAlta;
+    private javax.swing.JLabel labFechaAlta1;
     private javax.swing.JLabel labFechaBaja;
+    private javax.swing.JLabel labFechaBaja1;
     private javax.swing.JLabel labIdProducto;
     private javax.swing.JLabel labNumReferencia;
     private javax.swing.JTable tabRegistros;
-    private javax.swing.JFormattedTextField txtFechaAlta;
-    private javax.swing.JFormattedTextField txtFechaBaja;
+    private javax.swing.JFormattedTextField txtFechaAlta1;
+    private javax.swing.JFormattedTextField txtFechaAlta2;
+    private javax.swing.JFormattedTextField txtFechaBaja1;
+    private javax.swing.JFormattedTextField txtFechaBaja2;
     private javax.swing.JTextField txtIdProducto;
     private javax.swing.JTextField txtNumReferencia;
     // End of variables declaration//GEN-END:variables

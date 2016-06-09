@@ -65,6 +65,7 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
         txtIdProducto.setEditable(false);
         txtIdProducto.setBackground(new java.awt.Color(200, 230, 250));
 
+        txtNumReferencia.setBackground(new java.awt.Color(250, 210, 220));
         txtNumReferencia.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtNumReferenciaFocusLost(evt);
@@ -147,16 +148,18 @@ public class PanelReferenciaAlta extends javax.swing.JPanel {
                 
                 // ALTA REGISTRO
                 Registro registro = new Registro();
+                registro.setId(Registro.generarId(conn));
                 registro.setIdProducto(producto.getId());
                 registro.setNumRef(txtNumReferencia.getText());
                 registro.altaRegistro(conn);
+                
                 int op = JOptionPane.showConfirmDialog(this,
                     "Referencia creada correctamente.\n¿Añadir nueva referencia?", 
                     "ALTA", 
                     JOptionPane.YES_NO_OPTION);
                 switch(op) {
                     case JOptionPane.YES_OPTION:
-                        this.mostrar(producto, null);
+                        this.mostrar(producto, ibc);
                         break;
                     case JOptionPane.NO_OPTION:
                         this.setVisible(false);

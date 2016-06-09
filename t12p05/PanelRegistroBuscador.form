@@ -35,32 +35,55 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="botAceptar" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="jScrollPane1" max="32767" attributes="0"/>
+          <Component id="jScrollPane1" pref="620" max="32767" attributes="0"/>
           <Component id="labCabecera" alignment="1" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="labNumReferencia" alignment="0" min="-2" pref="129" max="-2" attributes="0"/>
-                  <Component id="labIdProducto" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="labFechaAlta" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="labFechaAlta1" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="labFechaAlta" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="labIdProducto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="labNumReferencia" alignment="0" min="-2" pref="129" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="txtFechaAlta" min="-2" pref="151" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labFechaBaja" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtFechaBaja" pref="165" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtIdProducto" max="32767" attributes="0"/>
                           <Component id="txtNumReferencia" max="32767" attributes="0"/>
+                          <Component id="txtIdProducto" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="botLimpiar" min="-2" max="-2" attributes="0"/>
                           <Component id="botBuscar" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="txtFechaBaja1" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="labFechaBaja1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="txtFechaAlta1" min="-2" pref="201" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="labFechaBaja" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="txtFechaAlta2" max="32767" attributes="0"/>
+                          <Component id="txtFechaBaja2" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -88,11 +111,18 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="labFechaAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="labFechaBaja" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtFechaAlta" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtFechaBaja" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFechaAlta1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFechaAlta2" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labFechaAlta1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labFechaBaja1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFechaBaja1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFechaBaja2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="194" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="161" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="botAceptar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -128,22 +158,22 @@
     </Component>
     <Component class="javax.swing.JLabel" name="labFechaAlta">
       <Properties>
-        <Property name="text" type="java.lang.String" value="DESDE (fecha alta):"/>
+        <Property name="text" type="java.lang.String" value="(fecha alta) DESDE:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labFechaBaja">
       <Properties>
-        <Property name="text" type="java.lang.String" value="HASTA (fecha baja):"/>
+        <Property name="text" type="java.lang.String" value="HASTA:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="txtFechaAlta">
+    <Component class="javax.swing.JFormattedTextField" name="txtFechaAlta1">
       <Properties>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
           <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="txtFechaBaja">
+    <Component class="javax.swing.JFormattedTextField" name="txtFechaAlta2">
       <Properties>
         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
           <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
@@ -201,11 +231,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Aceptar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botAcepCancActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="botCancelar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botAcepCancActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="botAlta">
       <Properties>
@@ -223,6 +259,30 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Baja"/>
         <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labFechaAlta1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="(fecha baja) DESDE:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labFechaBaja1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="HASTA:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="txtFechaBaja1">
+      <Properties>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="txtFechaBaja2">
+      <Properties>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

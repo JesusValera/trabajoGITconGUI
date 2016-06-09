@@ -26,7 +26,6 @@ public class PanelArmarioAlta extends javax.swing.JPanel {
         edicion = false;
         this.ibc = ibc;
         txtIdAula.setEditable(true);
-        txtIdAula.setBackground(new java.awt.Color(255,255,255));
         // Limpiar/inicializar campos
         txtIdAula.setText("");
         txtIdAulaBloqueada.setText("");
@@ -35,8 +34,8 @@ public class PanelArmarioAlta extends javax.swing.JPanel {
         try {
             txtId.setText(String.valueOf(Armario.generarId(conn)));
         } catch (Exception e) {
-            e.printStackTrace();
-            //JOptionPane.
+            //e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al obtener ID.");
         }
     }
     
@@ -52,16 +51,14 @@ public class PanelArmarioAlta extends javax.swing.JPanel {
             txtIdAula.setText(String.valueOf(armario.getIdAula()));
             txtNombre.setText(armario.getNombre());
             txtDescripcion.setText(armario.getDescripcion());
-            try {
-                Aula aula = new Aula();
-                aula.setId(Integer.parseInt(txtIdAula.getText()));
-                aula.recuperarAula(conn);
-                txtIdAulaBloqueada.setText(aula.getNombre());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            
+            // MOSTRAR NOMBRE AULA AL QUE HACE REFERENCIA IDAula EN CAMPO BLOQUEADO.
+            Aula aula = new Aula();
+            aula.setId(Integer.parseInt(txtIdAula.getText()));
+            aula.recuperarAula(conn);
+            txtIdAulaBloqueada.setText(aula.getNombre());
         } catch (Exception e) {
-            e.printStackTrace();
+            ;
         }
     }
 
@@ -105,6 +102,7 @@ public class PanelArmarioAlta extends javax.swing.JPanel {
         txtId.setEditable(false);
         txtId.setBackground(new java.awt.Color(200, 230, 250));
 
+        txtIdAula.setBackground(new java.awt.Color(250, 210, 220));
         txtIdAula.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtIdAulaFocusLost(evt);
@@ -136,27 +134,26 @@ public class PanelArmarioAlta extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(botCancelar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(botAceptar))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(labId)
-                                .addComponent(labIdAula)
-                                .addComponent(labNombre)
-                                .addComponent(labDescripcion))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(txtIdAula, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtIdAulaBloqueada))
-                                .addComponent(txtId, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txtNombre)
-                                .addComponent(txtDescripcion)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(botAceptar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labId)
+                            .addComponent(labIdAula)
+                            .addComponent(labNombre)
+                            .addComponent(labDescripcion))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtIdAula, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtIdAulaBloqueada))
+                            .addComponent(txtId, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtNombre)
+                            .addComponent(txtDescripcion))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -194,7 +191,7 @@ public class PanelArmarioAlta extends javax.swing.JPanel {
     }//GEN-LAST:event_botCancelarActionPerformed
 
     private void txtIdAulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdAulaFocusLost
-        // PINTAR CUADRO TEXTO DERECHA.
+        // PINTAR CUADRO BLOQUEADO SEGUN IDAula DE DERECHA.
         if (txtIdAula.getText().equals("")) {
             txtIdAulaBloqueada.setBackground(Color.gray);
             txtIdAulaBloqueada.setText("");
@@ -214,6 +211,7 @@ public class PanelArmarioAlta extends javax.swing.JPanel {
     }//GEN-LAST:event_txtIdAulaFocusLost
 
     private void botAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAceptarActionPerformed
+        // CREAR Y DAR DE ALTA A ARMARIO.
         if (!txtIdAula.getText().equals("")) {
             Armario armario = new Armario();
             armario.setId(Integer.parseInt(txtId.getText()));

@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Registro implements Comparable<Registro> {
     
+    private int id;
     private String numRef;
     private long idProducto;
     private LocalDate fecAlta;
@@ -17,6 +18,7 @@ public class Registro implements Comparable<Registro> {
     private String accion;
 
     public Registro() {
+        id = 0;
         numRef = "";
         idProducto = 0L;
         fecAlta = LocalDate.now();
@@ -26,6 +28,7 @@ public class Registro implements Comparable<Registro> {
     }
 
     public Registro(long idProducto, String numRef) {
+        id = 0;
         this.numRef = numRef;
         this.idProducto = idProducto;
         fecAlta = LocalDate.now();
@@ -35,6 +38,7 @@ public class Registro implements Comparable<Registro> {
     }
 
     public Registro(String numRef, long idProducto, String nombre, String causaBaja) {
+        id = 0;
         this.numRef = numRef;
         this.idProducto = idProducto;
         this.fecAlta = LocalDate.now();
@@ -43,6 +47,7 @@ public class Registro implements Comparable<Registro> {
         this.accion = "ALTA";
     }
 
+    public int getId() { return id; }
     public String getNumRef() { return numRef; }
     public long getIdProducto() { return idProducto; }
     public String getCausaBaja() { return causaBaja; }
@@ -58,14 +63,9 @@ public class Registro implements Comparable<Registro> {
         }
         return "";
     }
-    public String getFecBajaIng() {
-        if (fecBaja != null) {
-            return fecBaja.format(DateTimeFormatter.ofPattern("uuuu-MM-dd"));
-        }
-        return "";
-    }
     public String getAccion() { return accion; }
     
+    public void setId(int id) { this.id = id; }
     public void setNumRef(String numRef) { this.numRef = numRef; }
     public void setIdProducto(long idProducto) { this.idProducto = idProducto; }
     public void setCausaBaja(String causaBaja) { this.causaBaja = causaBaja; }
@@ -104,12 +104,12 @@ public class Registro implements Comparable<Registro> {
     
     public void altaRegistro(ConexionBD conn) throws Exception {
         try {
-            
-            String sql = "INSERT INTO registros VALUES('" +
+            String sql = "INSERT INTO registros VALUES(" +
+                    this.id +", '" +
                     this.numRef +"', " +
                     this.idProducto + ", '" +
                     Date.valueOf(fecAlta) +"', "+
-                    ((fecBaja==null)?null:"'" +getFecBajaIng() +"'") +", '" +
+                    ((fecBaja==null)?null:"'" +TransformarFechaBBDD(getFecBaja()) +"'") +", '" +
                     this.causaBaja +"', '" + 
                     this.accion +"')";
             
@@ -136,9 +136,26 @@ public class Registro implements Comparable<Registro> {
         }
     }
     
-    public static void buscarRegistro(ConexionBD conn, List<Registro> tRegistros) throws Exception {
+    public static int generarId(ConexionBD conn) throws Exception {
         try {
-            String sql = "SELECT * FROM registros";
+            String sql = "SELECT IFNULL(max(id), 0) + 1 FROM registros";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            rs.next();
+            
+            int i = rs.getInt(1);
+            return i;
+        } catch (Exception e) {
+            throw new Exception("Error generarId() ", e);
+        }
+    }
+    
+    public static void buscarRegistro(ConexionBD conn, List<Registro> tRegistros, String idProducto, String numRef, String fechaAlta1, String fechaAlta2, String fechaBaja1, String fechaBaja2) throws Exception {
+        try {
+            String sql = "SELECT * FROM registros WHERE "
+                    + "id_producto LIKE '%" +idProducto +"%' AND "
+                    + "num_ref LIKE '%" +numRef +"%' AND "
+                    + "(fecha_alta between " +fechaAlta1 +" AND " +fechaAlta2 +") AND "
+                    + "(fecha_baja between " +fechaBaja1 +" AND " +fechaBaja2 +" OR fecha_baja IS NULL)";
             ResultSet rs = conn.getSt().executeQuery(sql);
             while(rs.next()) {
                 Registro registro = new Registro();
@@ -152,25 +169,62 @@ public class Registro implements Comparable<Registro> {
                 registro.setAccion(rs.getString("accion"));
                 tRegistros.add(registro);
             }
-            
         } catch (Exception e) {
             throw new Exception("Error buscarRegistro\n", e);
         }
         
     }
     
-    @Override
-    public int compareTo(Registro o) {
-        return String.valueOf(this.getIdProducto()).compareTo(String.valueOf(o.getIdProducto()));
-//        if (fecAlta.isBefore(o.fecAlta)) {
-//            return 1;
-//        } else if (fecAlta.isAfter(fecAlta)) {
-//            return -1;
-//        } else {
-//            return 0;
-//        }
+    public static String obtenerFechaMenor(ConexionBD conn) throws Exception {
+        try {
+            String sql = "SELECT MIN(fecha_alta) FROM registros";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            rs.next();
+            
+            return rs.getString(1);
+        } catch (Exception e) {
+            throw new Exception("Error obtenerFechaMenor()", e);
+        }
     }
     
+    public static String obtenerFechaMayor(ConexionBD conn) throws Exception {
+        try {
+            String sql = "SELECT MAX(fecha_baja) FROM registros";
+            ResultSet rs = conn.getSt().executeQuery(sql);
+            rs.next();
+            
+            return rs.getString(1);
+        } catch (Exception e) {
+            throw new Exception("Error obtenerFechaMenor()", e);
+        }
+    }
+    /**
+     * Metodo estatico que sirve para transformar la fecha escrita en formato de BBDD MySQL.
+     * 
+     * @param fecha
+     * @return 
+     */
+    public static String TransformarFechaBBDD(String fecha) {
+        LocalDate fechita = LocalDate.of(Integer.parseInt(fecha.substring(6, 10)),
+                                    Integer.parseInt(fecha.substring(3, 5)),
+                                    Integer.parseInt(fecha.substring(0, 2)));
+        if (fechita != null) {
+            return fechita.format(DateTimeFormatter.ofPattern("uuuu-MM-dd"));
+        }
+        return "";
+    }
+
+    @Override
+    public int compareTo(Registro o) {
+        return String.valueOf(this.getId()).compareTo(String.valueOf(o.getId()));
+    }
+    
+    /**
+     * Metodos antiguos para el programa desde consola.
+     * @param conn
+     * @return
+     * @throws Exception 
+     */
     public static LinkedList<Registro> listarRegistro(ConexionBD conn) throws Exception {
         try {
             LinkedList<Registro> tRegistros = new LinkedList<>();

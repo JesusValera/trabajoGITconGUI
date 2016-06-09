@@ -88,6 +88,11 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
         });
 
         botLimpiar.setText("Limpiar");
+        botLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botLimpiarActionPerformed(evt);
+            }
+        });
 
         tabAulas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -220,7 +225,8 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
                 modelo.addRow(new String[] {String.valueOf(t.getId()), t.getNombre(), t.getDescripcion()});
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            ;
         }
     }//GEN-LAST:event_botBuscarActionPerformed
 
@@ -244,7 +250,8 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
                             "ELIMINAR", 
                             JOptionPane.OK_OPTION);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
+                    ;
                 }
             }
         }
@@ -260,10 +267,15 @@ public class PanelAulaBuscador extends javax.swing.JPanel implements IBusCallBac
                 aula.recuperarAula(conn);
                 pAulA.mostrarEdicion(this, aula);
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                ;
             }
         }
     }//GEN-LAST:event_botEditarActionPerformed
+
+    private void botLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botLimpiarActionPerformed
+        mostrar();
+    }//GEN-LAST:event_botLimpiarActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

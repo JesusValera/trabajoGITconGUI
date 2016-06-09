@@ -127,6 +127,7 @@ public class Producto implements Comparable<Producto> {
                 Producto producto = new Producto();
                 producto.setId(rs.getLong("id"));
                 producto.setIdArmario(rs.getInt("id_armario"));
+                // Si es nulo, pone el armario del ultimo rs, por eso lo siguiente:
                 if (rs.wasNull()) {
                     producto.setIdArmario(null);
                 }

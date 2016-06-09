@@ -13,6 +13,8 @@ public class PanelRegistroAlta extends javax.swing.JPanel {
 
     ConexionBD conn;
     Registro registro;
+    Referencia referencia;
+    IBusCallBack ibc;
     boolean accion;
     
     public PanelRegistroAlta(ConexionBD conn) {
@@ -20,9 +22,11 @@ public class PanelRegistroAlta extends javax.swing.JPanel {
         this.conn = conn;
     }
 
-    void mostrar(Referencia referencia, boolean accion) {
+    void mostrar(Referencia referencia, boolean accion, IBusCallBack ibc) {
         this.setVisible(true);
         this.registro = new Registro();
+        this.referencia = referencia;
+        this.ibc = ibc;
         this.accion = accion;
         txtIdProducto.setText(String.valueOf(referencia.getIdProducto()));
         txtIdProducto.setBackground(new java.awt.Color(200, 230, 250));
@@ -79,6 +83,7 @@ public class PanelRegistroAlta extends javax.swing.JPanel {
         txtFechaAlta.setEditable(false);
         txtFechaAlta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
+        txtFechaBaja.setBackground(new java.awt.Color(250, 210, 220));
         txtFechaBaja.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         botAceptar.setText("Aceptar");
@@ -154,30 +159,37 @@ public class PanelRegistroAlta extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botAceptarActionPerformed
+        // SI FECHABAJA != "" -> CREAMOS REGISTRO Y REFERENCIA DE PRODUCTO.
         if (!txtFechaBaja.getText().equals("")) {
-            registro.setIdProducto(Long.parseLong(txtIdProducto.getText()));
-            registro.setNumRef(txtNumReferencia.getText());
-            registro.setFecBaja(txtFechaBaja.getText());
-            registro.setCausaBaja(txtCausaBaja.getText());
-            if (accion) {
-                registro.setAccion("BAJA");
-            } else {
-                registro.setAccion("ALTA");
-            }
-            
             try {
+                registro.setId(Registro.generarId(conn));
+                registro.setIdProducto(Long.parseLong(txtIdProducto.getText()));
+                registro.setNumRef(txtNumReferencia.getText());
+                registro.setFecBaja(txtFechaBaja.getText());
+                registro.setCausaBaja(txtCausaBaja.getText());
+                if (accion) {
+                    registro.setAccion("BAJA");
+                } else {
+                    registro.setAccion("ALTA");
+                }
                 registro.altaRegistro(conn);
+                referencia.updateReferencia(conn);
+                ibc.callBack();
+                this.setVisible(false);
             } catch (Exception e) {
-                e.printStackTrace();
                 ;
             }
         } else {
-            JOptionPane.showConfirmDialog(this, 
+            int op = JOptionPane.showConfirmDialog(this, 
                     "Debes de introducir fecha de baja", 
                     "ERROR", 
                     JOptionPane.OK_OPTION);
+            switch(op) {
+                case JOptionPane.NO_OPTION:
+                    this.setVisible(false);
+            }
         }
-        this.setVisible(false);
+        
     }//GEN-LAST:event_botAceptarActionPerformed
 
 

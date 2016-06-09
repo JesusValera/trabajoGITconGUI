@@ -218,7 +218,7 @@ public class PanelArmarioBuscador extends javax.swing.JPanel implements IBusCall
     }//GEN-LAST:event_botAcepCancActionPerformed
 
     private void botLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botLimpiarActionPerformed
-        modelo.setRowCount(0);
+        mostrar();
     }//GEN-LAST:event_botLimpiarActionPerformed
 
     private void botBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botBuscarActionPerformed
@@ -237,9 +237,9 @@ public class PanelArmarioBuscador extends javax.swing.JPanel implements IBusCall
             }
             
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             JOptionPane.showConfirmDialog(this, 
-                    "Error cargar datos.", 
+                    "Error cargar datos." +e.getMessage(), 
                     "ERROR", 
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -250,6 +250,7 @@ public class PanelArmarioBuscador extends javax.swing.JPanel implements IBusCall
     }//GEN-LAST:event_botAltaActionPerformed
 
     private void botEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botEditarActionPerformed
+        // Obtener armario a partir de sus PK y editar desde PanelArmarioAlta.
         if (tabArmarios.getSelectedRow() >= 0) {
         String id = (String) modelo.getValueAt(tabArmarios.getSelectedRow(), 0);
             Armario armario = new Armario();
@@ -258,12 +259,14 @@ public class PanelArmarioBuscador extends javax.swing.JPanel implements IBusCall
                 armario.recuperarArmario(conn);
                 pArmA.mostrarEdicion(this, armario);
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                ;
             }
         }
     }//GEN-LAST:event_botEditarActionPerformed
 
     private void botBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botBajaActionPerformed
+        // Obtener armario a partir de sus PK y eliminar.
         if (tabArmarios.getSelectedRow() >= 0) {
             String id = (String) modelo.getValueAt(tabArmarios.getSelectedRow(), 0);
             int op = JOptionPane.showConfirmDialog(this, 

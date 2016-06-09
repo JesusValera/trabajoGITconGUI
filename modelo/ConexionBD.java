@@ -61,13 +61,14 @@ public class ConexionBD {
             st.executeUpdate(sql);
             // registros
             sql = "CREATE TABLE IF NOT EXISTS registros (" +
+                "id INTEGER," +
                 "num_ref VARCHAR(12)," +
                 "id_producto INTEGER," +
                 "fecha_alta DATE," +
                 "fecha_baja DATE," +
                 "causa_baja VARCHAR(100)," +
                 "accion VARCHAR(4)," +
-                "CONSTRAINT reg_idprod_numref_pk PRIMARY KEY(num_ref, id_producto)," +
+                "CONSTRAINT reg_idprod_numref_pk PRIMARY KEY(id)," +
                 "CONSTRAINT reg_idprod_numref_fk FOREIGN KEY(num_ref) REFERENCES referencias(num_ref) ON DELETE CASCADE);";
             st.executeUpdate(sql);
             

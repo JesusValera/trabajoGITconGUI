@@ -39,6 +39,10 @@ public class PanelProductoBuscador extends javax.swing.JPanel implements IBusCal
         chkOtra.setSelected(true);
     }
 
+    /**
+     * METODO PARA LA FILTRACION DE LA CONSULTA -> BOTON BUSCAR
+     * @return 
+     */
     private String categorias() {
         String cat = "";
         
@@ -290,7 +294,7 @@ public class PanelProductoBuscador extends javax.swing.JPanel implements IBusCal
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             JOptionPane.showConfirmDialog(this, 
                     "Error cargar datos.", 
                     "ERROR", 
@@ -314,7 +318,7 @@ public class PanelProductoBuscador extends javax.swing.JPanel implements IBusCal
                 producto.recuperarProducto(conn);
                 pProA.mostrarEdicion(this, producto);
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }//GEN-LAST:event_botEditarActionPerformed
@@ -332,7 +336,7 @@ public class PanelProductoBuscador extends javax.swing.JPanel implements IBusCal
                 try {
                     Producto.bajaProducto(Long.parseLong(id), conn);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
         }
